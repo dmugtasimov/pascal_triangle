@@ -1,7 +1,5 @@
-import timeit
 import itertools
 import collections
-from cpascal_triangle import cprint_pascal_triangle_v1, cprint_pascal_triangle_v2
 
 
 def print_pascal_triangle(n):
@@ -125,28 +123,21 @@ def print_pascal_triangle_v9(height):
     return line
 
 
-FUNCS = (print_pascal_triangle,
-         print_pascal_triangle_v2,
-         print_pascal_triangle_v3,
-         print_pascal_triangle_v4,
-         print_pascal_triangle_v5,
-         print_pascal_triangle_v6,
-         print_pascal_triangle_v7,
-         print_pascal_triangle_v8,
-         print_pascal_triangle_v9,
-         cprint_pascal_triangle_v1,
-         cprint_pascal_triangle_v2)  #[-1:]
-
-if 0:
-    HEIGHT_SMALL = 5
-    for func in FUNCS:
-        print '%s(%s)' % (func.__name__, HEIGHT_SMALL)
-        for _ in xrange(100):
-            func(HEIGHT_SMALL)
-else:
-    CYCLES = 10000
-    HEIGHT = 20
-    for func in (f.__name__ for f in FUNCS):
-        print '%s(%s) done for %s times in %s seconds' % (func, HEIGHT, CYCLES,
-                timeit.timeit('%s(%s)' % (func, HEIGHT), setup='from __main__ import %s' % func,
-                              number=CYCLES))
+#@profile
+def print_pascal_triangle_v10(height):
+    line = [0] * height
+    start = height - 1
+    size = 1
+    while size <= height:
+        line[start] = 1
+        i = 1
+        while i < size:
+            index = start + i
+            try:
+                line[index] += line[index + 1]
+            except IndexError:
+                pass
+            i += 1
+        #print line[start:start + size]
+        start -= 1
+        size += 1
