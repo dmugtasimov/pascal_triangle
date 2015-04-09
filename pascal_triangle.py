@@ -1,6 +1,7 @@
 import timeit
 import itertools
 import collections
+from cpascal_triangle import cprint_pascal_triangle_v1, cprint_pascal_triangle_v2
 
 
 def print_pascal_triangle(n):
@@ -132,7 +133,9 @@ FUNCS = (print_pascal_triangle,
          print_pascal_triangle_v6,
          print_pascal_triangle_v7,
          print_pascal_triangle_v8,
-         print_pascal_triangle_v9)  #[-1:]
+         print_pascal_triangle_v9,
+         cprint_pascal_triangle_v1,
+         cprint_pascal_triangle_v2)  #[-1:]
 
 if 0:
     HEIGHT_SMALL = 5
