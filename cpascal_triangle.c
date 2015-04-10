@@ -85,7 +85,8 @@ static PyObject* py_casmprint_pascal_triangle_v3(PyObject* self, PyObject* args)
     int line[height + 1];
 
     // Fill in line with 1 and put 0 in the end
-    asm ("movl %0, %%ecx\n\t"
+    asm (
+         "movl %0, %%ecx\n\t"
          "movl %0, %%edx\n\t"
          "movq %1, %%rdi\n\t"
          "movl $1, %%eax\n\t"
