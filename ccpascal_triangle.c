@@ -13,7 +13,8 @@ void ccasm_print_pascal_triangle_v1(int height) {
          "stosl\n\t"
          "movq $0, (%%rdi)\n\t"
          "movq $1, %%rcx\n\t"  // line number being processed
-         "movq %0, %%rdx\n\t"  // maximum number of lines
+         "xorq %%rdx, %%rdx\n\t"
+         "movl %0, %%edx\n\t"  // maximum number of lines
          "movq %1, %%rdi\n\t"  // start of "line" array
          "outer:\n\t"
              "movq %%rdx, %%rbx\n\t"  // offset of current element
@@ -22,13 +23,13 @@ void ccasm_print_pascal_triangle_v1(int height) {
              "inner:\n\t"
                  "movl 4(%%rdi,%%rbx,4), %%eax\n\t"  // read line[index + 1]
                  "addl %%eax, (%%rdi,%%rbx,4)\n\t"  // line[index] += line[index + 1]
-                 "addq $4, %%rbx\n\t"
+                 "addq $1, %%rbx\n\t"
                  "incq %%r8\n\t"
                  "cmpq %%r8, %%rcx\n\t"
                  "jne inner\n\t"
              "incq %%rcx\n\t"
-             "cmpq %%rcx, %%rdx\n\t"
-             "jle outer\n\t"
+             "cmpq %%rdx, %%rcx\n\t"
+             "jl outer\n\t"
          : /**/
          : "g" (height), "g" (line)
          : "eax", "rbx", "rcx", "rdx", "rdi", "r8"
