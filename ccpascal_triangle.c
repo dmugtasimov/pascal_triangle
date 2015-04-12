@@ -20,6 +20,7 @@ void ccasm_print_pascal_triangle_v1(int height) {
              "movq %%rdx, %%rbx\n\t"  // offset of current element
              "subq %%rcx, %%rbx\n\t"
              "xorq %%r8, %%r8\n\t"
+             // print %%rcx dwords starting from (%%rdi,%%rbx,4)
              "inner:\n\t"
                  "movl 4(%%rdi,%%rbx,4), %%eax\n\t"  // read line[index + 1]
                  "addl %%eax, (%%rdi,%%rbx,4)\n\t"  // line[index] += line[index + 1]
@@ -30,6 +31,7 @@ void ccasm_print_pascal_triangle_v1(int height) {
              "incq %%rcx\n\t"
              "cmpq %%rdx, %%rcx\n\t"
              "jl outer\n\t"
+             // print %%rdx dwords starting from (%%rdi)
          : /**/
          : "g" (height), "g" (line)
          : "eax", "rbx", "rcx", "rdx", "rdi", "r8"
