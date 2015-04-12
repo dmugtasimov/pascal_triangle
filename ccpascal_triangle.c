@@ -3,7 +3,6 @@
 void ccasm_print_pascal_triangle_v1(int height) {
     int line[height + 1];
 
-    // Fill in line with 1 and put 0 in the end
     asm (
          "movl %0, %%ecx\n\t"
          "movq %1, %%rdi\n\t"

@@ -30,8 +30,8 @@ FUNCS = (
     casmprint_pascal_triangle_v3,
 )
 
-CYCLES = 10000
-HEIGHT = 20
+CYCLES = 100
+HEIGHT = 200
 for func in (f.__name__ for f in FUNCS):
     print '%s(%s) done for %s times in %s seconds' % (func, HEIGHT, CYCLES,
             timeit.timeit('%s(%s)' % (func, HEIGHT), setup='from __main__ import %s' % func,

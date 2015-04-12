@@ -76,54 +76,40 @@ static PyObject* py_casmprint_pascal_triangle_v3(PyObject* self, PyObject* args)
     int height;
     if (!PyArg_ParseTuple(args, "i", &height)) return NULL;
 
-    /*
-    int start = height - 1;
-    int size;
-    int index;
-    */
-
     int line[height + 1];
 
-    // Fill in line with 1 and put 0 in the end
     asm (
          "movl %0, %%ecx\n\t"
-         "movl %0, %%edx\n\t"
          "movq %1, %%rdi\n\t"
          "movl $1, %%eax\n\t"
          "cld\n\t"
          "rep\n\t"
          "stosl\n\t"
          "movq $0, (%%rdi)\n\t"
-         "movl $1, %%ecx\n\t"
+         "movq $1, %%rcx\n\t"  // line number being processed
+         "xorq %%rdx, %%rdx\n\t"
+         "movl %0, %%edx\n\t"  // maximum number of lines
+         "movq %1, %%rdi\n\t"  // start of "line" array
          "outer:\n\t"
-             "decq %%rdi\n\t"
-             "movabsq $1, %%rbx\n\t"
+             "movq %%rdx, %%rbx\n\t"  // offset of current element
+             "subq %%rcx, %%rbx\n\t"
+             "xorq %%r8, %%r8\n\t"
+             // print %%rcx dwords starting from (%%rdi,%%rbx,4)
              "inner:\n\t"
-                 "movl 4(%%rdi,%%rbx,4), %%eax\n\t"
-                 "addl %%eax, (%%rdi,%%rbx,4)\n\t"
-                 "incl %%ebx\n\t"
-                 "cmpl %%ebx, %%edx\n\t"
+                 "movl 4(%%rdi,%%rbx,4), %%eax\n\t"  // read line[index + 1]
+                 "addl %%eax, (%%rdi,%%rbx,4)\n\t"  // line[index] += line[index + 1]
+                 "addq $1, %%rbx\n\t"
+                 "incq %%r8\n\t"
+                 "cmpq %%r8, %%rcx\n\t"
                  "jne inner\n\t"
-             "incl %%ecx\n\t"
-             "cmpl %%ecx, %%edx\n\t"
-             "jle outer\n\t"
+             "incq %%rcx\n\t"
+             "cmpq %%rdx, %%rcx\n\t"
+             "jl outer\n\t"
+             // print %%rdx dwords starting from (%%rdi)
          : /**/
          : "g" (height), "g" (line)
-         : "eax", "rbx", "ecx", "edx", "rdi"
+         : "eax", "rbx", "rcx", "rdx", "rdi", "r8"
         );
-
-    /*
-    for (size = 1; size <= height; size++) {
-        for (index = start + 1; index < height; index++) {
-            line[index] += line[index + 1];
-        }
-        for (index = start; index < start + size; index++) {
-            printf("%d ", line[index]);
-        }
-        printf("\n");
-        start--;
-    }
-    */
 
     Py_INCREF(Py_None);
     return Py_None;
