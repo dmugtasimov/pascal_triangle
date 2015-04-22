@@ -2,15 +2,31 @@ import itertools
 import collections
 
 
-def print_pascal_triangle(n):
+def print_pascal_triangle_initial(n):
     if n <= 1:
-        #print [1]
+        print [1]
         return [1]
 
-    a = [0] + print_pascal_triangle(n - 1) + [0]
+    a = [0] + print_pascal_triangle_initial(n - 1) + [0]
     b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
-    #print b
+    print b
     return b
+
+
+class PascalTriangleTestable(object):
+
+    def _print(self, arg):
+        print arg
+
+    def print_pascal_triangle_initial(self, n):
+        if n <= 1:
+            self._print([1])
+            return [1]
+
+        a = [0] + self.print_pascal_triangle_initial(n - 1) + [0]
+        b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
+        self._print(b)
+        return b
 
 
 ZERO_LIST = [0]

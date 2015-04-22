@@ -1,1 +1,2 @@
-cython
+Cython==0.22
+mock==1.0.1
