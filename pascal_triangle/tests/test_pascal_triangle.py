@@ -12,9 +12,9 @@ _TEST_CLASS = PascalTriangleTestable
 def test_method_template(method_name):
 
     def test_method(self):
-        method = getattr(self.pascal_tringle_testable, method_name)
+        method = getattr(self.pascal_triangle_testable, method_name)
         method(self.TRI_HEIGH)
-        self.pascal_tringle_testable._print.assert_has_calls(self.CALLS_5)
+        self.pascal_triangle_testable._print.assert_has_calls(self.CALLS_5)
 
     return test_method
 
