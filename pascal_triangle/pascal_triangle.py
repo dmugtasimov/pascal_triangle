@@ -3,6 +3,11 @@ import collections
 
 
 def print_pascal_triangle_initial(n):
+    """
+    Print Pascal's Triangle of height n: initial interview solution.
+    :param n: height of the triangle to print
+    :return: n-th line of Pascal's Triangle
+    """
     if n <= 1:
         print [1]
         return [1]
@@ -15,10 +20,22 @@ def print_pascal_triangle_initial(n):
 
 class PascalTriangleTestable(object):
 
+    ZERO_LIST = [0]
+    ONE_LIST = [1]
+
     def _print(self, arg):
+        """
+        Print Pascal'S Triangle line
+        :param arg: triangle line
+        """
         print arg
 
     def print_pascal_triangle_initial(self, n):
+        """
+        Print Pascal's Triangle of height n: more testable interview solution.
+        :param n: height of the triangle to print
+        :return: n-th line of Pascal's Triangle
+        """
         if n <= 1:
             self._print([1])
             return [1]
@@ -28,21 +45,60 @@ class PascalTriangleTestable(object):
         self._print(b)
         return b
 
+    def print_pascal_triangle_initial_fixed(self, n):
+        """
+        Print Pascal's Triangle of height n: more testable interview solution with corner case bug fix.
+        :param n: height of the triangle to print
+        :return: n-th line of Pascal's Triangle
+        """
+        if n == 1:
+            self._print([1])
+            return [1]
+        elif n < 1:
+            return []
+
+        a = [0] + self.print_pascal_triangle_initial(n - 1) + [0]
+        b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
+        self._print(b)
+        return b
+
+    def print_pascal_triangle_better_naming(self, height):
+        """
+        Print Pascal's Triangle of height n: more testable interview solution with better variable naming.
+        :param height: height of the triangle to print
+        :return: n-th line of Pascal's Triangle
+        """
+        if height == 1:
+            self._print([1])
+            return [1]
+        elif height < 1:
+            return []
+
+        pre_line = [0] + self.print_pascal_triangle_initial(height - 1) + [0]
+        line = [pre_line[i] + pre_line[i + 1] for i in xrange(len(pre_line) - 1)]
+        self._print(line)
+        return line
+
+    def print_pascal_triangle_constant_lists(self, height):
+        """
+        Print Pascal's Triangle of height n: with constant lists.
+        :param height: height of the triangle to print
+        :return: n-th line of Pascal's Triangle
+        """
+        if height == 1:
+            self._print(self.ONE_LIST)
+            return self.ONE_LIST
+        elif height < 1:
+            return []
+
+        pre_line = self.ZERO_LIST + self.print_pascal_triangle_initial(height - 1) + self.ZERO_LIST
+        line = [pre_line[i] + pre_line[i + 1] for i in xrange(len(pre_line) - 1)]
+        self._print(line)
+        return line
+
+
 
 ZERO_LIST = [0]
-
-
-def print_pascal_triangle_v2(n):
-    if n <= 1:
-        #print [1]
-        return [1]
-
-    a = ZERO_LIST + print_pascal_triangle_v2(n - 1) + ZERO_LIST
-    b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
-    #print b
-    return b
-
-
 ZERO_TUPLE = (0,)
 
 

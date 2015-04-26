@@ -7,3 +7,7 @@ gcc -dynamiclib -I/usr/include/python2.7/ -lpython2.7 -o cpascal_triangle.so cpa
 Running unit tests::
 
     python -m unittest -v pascal_triangle.tests.test_pascal_triangle
+
+Running performance tests::
+
+    python -m pascal_triangle.tests.performance_test
