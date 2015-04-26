@@ -61,7 +61,7 @@ def run_performance_test(height, cycles):
     for method_name in method_names:
         statement = STATEMENT % (method_name, height)
         duration = timeit.timeit(statement, setup=SETUP, number=cycles)
-        print '%s(%s) done for %s times in %s seconds' % (method_name, height, cycles, duration)
+        print '%s seconds: %s times: %s(%s)' % (duration, cycles, method_name, height)
 
 
 if __name__ == '__main__':

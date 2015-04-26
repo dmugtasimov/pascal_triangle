@@ -1,5 +1,6 @@
 import unittest
 import inspect
+from collections import deque
 
 from mock import Mock, call
 
@@ -11,10 +12,14 @@ _TEST_CLASS = PascalTriangleTestable
 
 def test_method_template(method_name):
 
+    TRI_HEIGH = 5
+    CALLS_5 = [call([1]), call([1, 1]), call([1, 2, 1]), call([1, 3, 3, 1]),
+                    call([1, 4, 6, 4, 1])]
+
     def test_method(self):
         method = getattr(self.pascal_triangle_testable, method_name)
-        method(self.TRI_HEIGH)
-        self.pascal_triangle_testable._print.assert_has_calls(self.CALLS_5)
+        method(TRI_HEIGH)
+        self.pascal_triangle_testable._print.assert_has_calls(CALLS_5)
 
     return test_method
 
@@ -34,10 +39,6 @@ class _TestPascalTriagnaleMeta(type):
 class TestPascalTriagnale(unittest.TestCase):
 
     __metaclass__ = _TestPascalTriagnaleMeta
-
-    TRI_HEIGH = 5
-    CALLS_5 = [call([1]), call([1, 1]), call([1, 2, 1]), call([1, 3, 3, 1]),
-               call([1, 4, 6, 4, 1])]
 
     @classmethod
     def setUpClass(cls):
