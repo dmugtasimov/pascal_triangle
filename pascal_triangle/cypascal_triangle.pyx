@@ -8,7 +8,7 @@ ONE_LIST = [1]
 
 def cy_print_pascal_triangle_iterators_improved(height):
     if height == 1:
-        print ONE_LIST
+        # print ONE_LIST
         return ONE_LIST
     elif height < 1:
         return []

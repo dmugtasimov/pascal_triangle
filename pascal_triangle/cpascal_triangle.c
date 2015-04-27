@@ -1,7 +1,7 @@
 #include <Python.h>
 #include <stdio.h>
 
-static PyObject* py_cprint_pascal_triangle_v1(PyObject* self, PyObject* args) {
+static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
     int height;
     if (!PyArg_ParseTuple(args, "i", &height)) return NULL;
 
@@ -17,12 +17,12 @@ static PyObject* py_cprint_pascal_triangle_v1(PyObject* self, PyObject* args) {
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
-        /*
-        for (index = start; index < start + size; index++) {
-            printf("%d ", line[index]);
+
+        for (index = start + size - 1; index >= start; index--) {
+            // printf("%d ", line[index]);
         }
-        printf("\n");
-        */
+        // printf("\n");
+
         start--;
     }
 
@@ -31,7 +31,7 @@ static PyObject* py_cprint_pascal_triangle_v1(PyObject* self, PyObject* args) {
 }
 
 
-static PyObject* py_casmprint_pascal_triangle_v2(PyObject* self, PyObject* args) {
+static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* args) {
     int height;
     if (!PyArg_ParseTuple(args, "i", &height)) return NULL;
 
@@ -58,12 +58,12 @@ static PyObject* py_casmprint_pascal_triangle_v2(PyObject* self, PyObject* args)
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
-        /*
-        for (index = start; index < start + size; index++) {
-            printf("%d ", line[index]);
+
+        for (index = start + size - 1; index >= start; index--) {
+            // printf("%d ", line[index]);
         }
-        printf("\n");
-        */
+        // printf("\n");
+
         start--;
     }
 
@@ -72,19 +72,21 @@ static PyObject* py_casmprint_pascal_triangle_v2(PyObject* self, PyObject* args)
 }
 
 
-static PyObject* py_casmprint_pascal_triangle_v3(PyObject* self, PyObject* args) {
+static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self, PyObject* args) {
     int height;
     if (!PyArg_ParseTuple(args, "i", &height)) return NULL;
 
     int line[height + 1];
 
     asm (
+         // Fill in line with 1 and put 0 in the end
          "movl %0, %%ecx\n\t"
          "movq %1, %%rdi\n\t"
          "movl $1, %%eax\n\t"
          "cld\n\t"
          "rep\n\t"
          "stosl\n\t"
+         // End of filling
          "movq $0, (%%rdi)\n\t"
          "movq $1, %%rcx\n\t"  // line number being processed
          "xorq %%rdx, %%rdx\n\t"
@@ -117,9 +119,10 @@ static PyObject* py_casmprint_pascal_triangle_v3(PyObject* self, PyObject* args)
 
 
 static PyMethodDef cpascal_triangle_methods[] = {
-    {"cprint_pascal_triangle_v1", py_cprint_pascal_triangle_v1, METH_VARARGS},
-    {"casmprint_pascal_triangle_v2", py_casmprint_pascal_triangle_v2, METH_VARARGS},
-    {"casmprint_pascal_triangle_v3", py_casmprint_pascal_triangle_v3, METH_VARARGS},
+    {"c_print_pascal_triangle", c_print_pascal_triangle, METH_VARARGS},
+    {"c_print_pascal_triangle_inline_asm", c_print_pascal_triangle_inline_asm, METH_VARARGS},
+    {"c_print_pascal_triangle_full_asm_implementation",
+                              c_print_pascal_triangle_full_asm_implementation, METH_VARARGS},
     {NULL, NULL}
 };
 

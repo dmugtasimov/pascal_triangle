@@ -6,6 +6,8 @@ from .cypascal_triangle import (cy_print_pascal_triangle_iterators_improved,
     cy_print_pascal_triangle_non_recursive_less_c_like,
     cy_print_pascal_triangle_c_types,
     cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus)
+from .cpascal_triangle import (c_print_pascal_triangle, c_print_pascal_triangle_inline_asm,
+                               c_print_pascal_triangle_full_asm_implementation)
 
 
 def print_pascal_triangle_initial(n):
@@ -285,3 +287,15 @@ class CyPascalTriangle(object):
 
     def print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(self, height):
         cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height)
+
+
+class CPascalTriangle(object):
+
+    def c_print_pascal_triangle(self, height):
+        c_print_pascal_triangle(height)
+
+    def c_print_pascal_triangle_inline_asm(self, height):
+        c_print_pascal_triangle_inline_asm(height)
+
+    def c_print_pascal_triangle_full_asm_implementation(self, height):
+        c_print_pascal_triangle_full_asm_implementation(height)
