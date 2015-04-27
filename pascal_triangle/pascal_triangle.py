@@ -1,6 +1,12 @@
 import itertools
 import collections
 
+from .cypascal_triangle import (cy_print_pascal_triangle_iterators_improved,
+    cy_print_pascal_triangle_non_recursive_even_more_c_like_improved,
+    cy_print_pascal_triangle_non_recursive_less_c_like,
+    cy_print_pascal_triangle_c_types,
+    cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus)
+
 
 def print_pascal_triangle_initial(n):
     """
@@ -18,7 +24,7 @@ def print_pascal_triangle_initial(n):
     return b
 
 
-class PascalTriangleTestable(object):
+class PyPascalTriangle(object):
 
     ZERO_LIST = [0]
     ONE_LIST = [1]
@@ -261,3 +267,21 @@ class PascalTriangleTestable(object):
             print_line = line[start:start + size]
             self._print(print_line)
             start -= 1
+
+
+class CyPascalTriangle(object):
+
+    def print_pascal_triangle_iterators_improved(self, height):
+        return cy_print_pascal_triangle_iterators_improved(height)
+
+    def print_pascal_triangle_non_recursive_even_more_c_like_improved(self, height):
+        cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height)
+
+    def print_pascal_triangle_non_recursive_less_c_like(self, height):
+        cy_print_pascal_triangle_non_recursive_less_c_like(height)
+
+    def print_pascal_triangle_c_types(self, height):
+        cy_print_pascal_triangle_c_types(height)
+
+    def print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(self, height):
+        cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height)

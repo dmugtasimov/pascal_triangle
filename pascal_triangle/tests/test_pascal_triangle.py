@@ -4,10 +4,10 @@ from collections import deque
 
 from mock import Mock, call
 
-from pascal_triangle.pascal_triangle import PascalTriangleTestable
+from pascal_triangle.pascal_triangle import PyPascalTriangle
 
 
-_TEST_CLASS = PascalTriangleTestable
+_TEST_CLASS = PyPascalTriangle
 
 
 def test_method_template(method_name):

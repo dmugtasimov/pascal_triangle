@@ -1,8 +1,6 @@
-Build cypascal_triangle:
-python setup.py build_ext --inplace
+Install::
 
-Build cpascal_triangle:
-gcc -dynamiclib -I/usr/include/python2.7/ -lpython2.7 -o cpascal_triangle.so cpascal_triangle.c
+    pip install -e .
 
 Run unit tests::
 
