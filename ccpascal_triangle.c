@@ -1,15 +1,47 @@
 #include <stdio.h>
+#include <sys/time.h>
 
-void ccasm_print_pascal_triangle_v1(int height) {
+
+typedef void (*fp)(int);
+#define HEIGHT 200
+#define CYCLES 100
+
+
+void c_print_pascal_triangle(int height) {
+    int line[height + 1];
+    line[height] = 0;
+
+    int start = height - 1;
+    int size;
+    int index;
+
+    for (size = 1; size <= height; size++) {
+        line[start] = 1;
+        for (index = start + 1; index < height; index++) {
+            line[index] += line[index + 1];
+        }
+
+        for (index = start + size - 1; index >= start; index--) {
+            // printf("%d ", line[index]);
+        }
+        // printf("\n");
+
+        start--;
+    }
+}
+
+void c_print_pascal_triangle_full_asm_implementation(int height) {
     int line[height + 1];
 
     asm (
+         // Fill in line with 1 and put 0 in the end
          "movl %0, %%ecx\n\t"
          "movq %1, %%rdi\n\t"
          "movl $1, %%eax\n\t"
          "cld\n\t"
          "rep\n\t"
          "stosl\n\t"
+         // End of filling
          "movq $0, (%%rdi)\n\t"
          "movq $1, %%rcx\n\t"  // line number being processed
          "xorq %%rdx, %%rdx\n\t"
@@ -38,6 +70,34 @@ void ccasm_print_pascal_triangle_v1(int height) {
 }
 
 int main(int argc, const char* argv[]) {
-    ccasm_print_pascal_triangle_v1(5);
+    char *function_names[] = {"c_print_pascal_triangle",
+                              "c_print_pascal_triangle_full_asm_implementation"};
+    fp functions[] = {c_print_pascal_triangle,
+                      c_print_pascal_triangle_full_asm_implementation};
+    fp function;
+    int length = (int) (sizeof(functions) / sizeof(fp));
+    int i;
+    int cycle;
+    struct timeval tv;
+    unsigned long start;
+    unsigned long finish;
+    float duration;
+
+    for(i = 0; i < length; i++) {
+        function = functions[i];
+
+        gettimeofday(&tv, NULL);
+        for(cycle = 0; cycle < CYCLES; cycle++) {
+            function(HEIGHT);
+        }
+
+        start = 1000000 * tv.tv_sec + tv.tv_usec;
+        gettimeofday(&tv, NULL);
+        finish = 1000000 * tv.tv_sec + tv.tv_usec;
+
+        duration = ((float) (finish - start)) / 1000000;
+
+        printf("%.06f seconds: %d times: %s(%d)\n", duration, CYCLES, function_names[i], HEIGHT);
+    }
     return 0;
 }
