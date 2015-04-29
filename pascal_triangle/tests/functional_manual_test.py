@@ -1,0 +1,14 @@
+from pascal_triangle.cypascal_triangle import (cy_print_pascal_triangle_iterators_improved,
+    cy_print_pascal_triangle_non_recursive_even_more_c_like_improved,
+    cy_print_pascal_triangle_non_recursive_less_c_like,
+    cy_print_pascal_triangle_c_types,
+    cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus)
+
+from pascal_triangle.cpascal_triangle import c_print_pascal_triangle
+
+cy_print_pascal_triangle_iterators_improved(5)
+cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(5)
+cy_print_pascal_triangle_non_recursive_less_c_like(5)
+cy_print_pascal_triangle_c_types(5)
+cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(5)
+c_print_pascal_triangle(5)
