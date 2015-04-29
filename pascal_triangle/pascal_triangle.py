@@ -1,7 +1,7 @@
 import itertools
 import collections
 
-from .cypascal_triangle import (cy_print_pascal_triangle_iterators_improved,
+from .cypascal_triangle import (cy_print_pascal_triangle_iterators,
     cy_print_pascal_triangle_non_recursive_even_more_c_like_improved,
     cy_print_pascal_triangle_non_recursive_less_c_like,
     cy_print_pascal_triangle_c_types,
@@ -40,41 +40,9 @@ class PyPascalTriangle(object):
         """
         print arg
 
-    def print_pascal_triangle_initial(self, n):
+    def print_pascal_triangle_testable_fixed_better_naming(self, height):
         """
-        Print Pascal's Triangle of height n: more testable interview solution.
-        :param n: height of the triangle to print
-        :return: n-th line of Pascal's Triangle
-        """
-        if n <= 1:
-            self._print([1])
-            return [1]
-
-        a = [0] + self.print_pascal_triangle_initial(n - 1) + [0]
-        b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
-        self._print(b)
-        return b
-
-    def print_pascal_triangle_initial_fixed(self, n):
-        """
-        Print Pascal's Triangle of height n: more testable interview solution with corner case bug fix.
-        :param n: height of the triangle to print
-        :return: n-th line of Pascal's Triangle
-        """
-        if n == 1:
-            self._print([1])
-            return [1]
-        elif n < 1:
-            return []
-
-        a = [0] + self.print_pascal_triangle_initial_fixed(n - 1) + [0]
-        b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
-        self._print(b)
-        return b
-
-    def print_pascal_triangle_better_naming(self, height):
-        """
-        Print Pascal's Triangle of height n: more testable interview solution with better variable naming.
+        Print Pascal's Triangle of `height`: testable, fixed, corner case, better variable naming.
         :param height: height of the triangle to print
         :return: n-th line of Pascal's Triangle
         """
@@ -84,7 +52,7 @@ class PyPascalTriangle(object):
         elif height < 1:
             return []
 
-        prev_line = [0] + self.print_pascal_triangle_better_naming(height - 1) + [0]
+        prev_line = [0] + self.print_pascal_triangle_testable_fixed_better_naming(height - 1) + [0]
         line = [prev_line[i] + prev_line[i + 1] for i in xrange(len(prev_line) - 1)]
         self._print(line)
         return line
@@ -135,27 +103,7 @@ class PyPascalTriangle(object):
         elif height < 1:
             return []
 
-        prev_line = self.ZERO_LIST + self.print_pascal_triangle_iterators(height - 1) + self.ZERO_LIST
-        iterator = iter(prev_line)
-        ahead_iterator = iter(prev_line)
-        ahead_iterator.next()
-        line = [iterator.next() + x for x in ahead_iterator]
-        self._print(line)
-        return line
-
-    def print_pascal_triangle_iterators_improved(self, height):
-        """
-        Print Pascal's Triangle of height n: using iterators, improved.
-        :param height: height of the triangle to print
-        :return: n-th line of Pascal's Triangle
-        """
-        if height == 1:
-            self._print(self.ONE_LIST)
-            return self.ONE_LIST
-        elif height < 1:
-            return []
-
-        prev_line = self.print_pascal_triangle_iterators_improved(height - 1)
+        prev_line = self.print_pascal_triangle_iterators(height - 1)
         iterator = itertools.chain(self.ZERO_LIST, prev_line)
         ahead_iterator = itertools.chain(prev_line, self.ZERO_LIST)
         line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
@@ -273,8 +221,8 @@ class PyPascalTriangle(object):
 
 class CyPascalTriangle(object):
 
-    def print_pascal_triangle_iterators_improved(self, height):
-        return cy_print_pascal_triangle_iterators_improved(height)
+    def print_pascal_triangle_iterators(self, height):
+        return cy_print_pascal_triangle_iterators(height)
 
     def print_pascal_triangle_non_recursive_even_more_c_like_improved(self, height):
         cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height)

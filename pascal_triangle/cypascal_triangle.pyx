@@ -6,14 +6,14 @@ ZERO_LIST = [0]
 ONE_LIST = [1]
 
 
-def cy_print_pascal_triangle_iterators_improved(height):
+def cy_print_pascal_triangle_iterators(height):
     if height == 1:
         # print ONE_LIST
         return ONE_LIST
     elif height < 1:
         return []
 
-    prev_line = cy_print_pascal_triangle_iterators_improved(height - 1)
+    prev_line = cy_print_pascal_triangle_iterators(height - 1)
     iterator = itertools.chain(ZERO_LIST, prev_line)
     ahead_iterator = itertools.chain(prev_line, ZERO_LIST)
     line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
