@@ -2,6 +2,7 @@ import itertools
 import collections
 
 from .cypascal_triangle import (cy_print_pascal_triangle_iterators,
+    cy_print_pascal_triangle_non_recursive_iterators,
     cy_print_pascal_triangle_non_recursive_even_more_c_like_improved,
     cy_print_pascal_triangle_non_recursive_less_c_like,
     cy_print_pascal_triangle_c_types,
@@ -218,11 +219,28 @@ class PyPascalTriangle(object):
             self._print(print_line)
             start -= 1
 
+    def print_pascal_triangle_non_recursive_iterators(self, height):
+        """
+        Print Pascal's Triangle of height n: using iterators, non-recursive.
+        :param height: height of the triangle to print
+        """
+
+        line = self.ONE_LIST
+        self._print(line)
+        for _ in xrange(height - 1):
+            iterator = itertools.chain(self.ZERO_LIST, line)
+            ahead_iterator = itertools.chain(line, self.ZERO_LIST)
+            line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
+            self._print(line)
+
 
 class CyPascalTriangle(object):
 
     def print_pascal_triangle_iterators(self, height):
         return cy_print_pascal_triangle_iterators(height)
+
+    def print_pascal_triangle_non_recursive_iterators(self, height):
+        cy_print_pascal_triangle_non_recursive_iterators(height)
 
     def print_pascal_triangle_non_recursive_even_more_c_like_improved(self, height):
         cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height)

@@ -21,6 +21,16 @@ def cy_print_pascal_triangle_iterators(height):
     return line
 
 
+def cy_print_pascal_triangle_non_recursive_iterators(height):
+    line = ONE_LIST
+    # print line
+    for _ in xrange(height - 1):
+        iterator = itertools.chain(ZERO_LIST, line)
+        ahead_iterator = itertools.chain(line, ZERO_LIST)
+        line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
+        # print line
+
+
 def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height):
     line = ONE_LIST * height + ZERO_LIST
     start = height - 1
