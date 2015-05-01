@@ -21,3 +21,17 @@ Run performance tests::
 Run pure C solution::
 
     ./ccpascal_triangle
+
+See gcc compilation options::
+
+    import distutils.sysconfig
+    import distutils.ccompiler
+    compiler = distutils.ccompiler.new_compiler()
+    distutils.sysconfig.customize_compiler(compiler)
+    print 'preprocessor:', compiler.preprocessor
+    print 'compiler:', compiler.compiler
+    print 'compiler_so:', compiler.compiler_so
+    print 'compiler_cxx:', compiler.compiler_cxx
+    print 'linker_so:', compiler.linker_so
+    print 'linker_exe:', compiler.linker_exe
+    print 'archiver:', compiler.archiver

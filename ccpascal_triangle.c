@@ -78,7 +78,8 @@ int main(int argc, const char* argv[]) {
     int length = (int) (sizeof(functions) / sizeof(fp));
     int i;
     int cycle;
-    struct timeval tv;
+    struct timeval tv_start;
+    struct timeval tv_finish;
     unsigned long start;
     unsigned long finish;
     float duration;
@@ -86,15 +87,13 @@ int main(int argc, const char* argv[]) {
     for(i = 0; i < length; i++) {
         function = functions[i];
 
-        gettimeofday(&tv, NULL);
+        gettimeofday(&tv_start, NULL);
         for(cycle = 0; cycle < CYCLES; cycle++) {
             function(HEIGHT);
         }
-
-        start = 1000000 * tv.tv_sec + tv.tv_usec;
-        gettimeofday(&tv, NULL);
-        finish = 1000000 * tv.tv_sec + tv.tv_usec;
-
+        gettimeofday(&tv_finish, NULL);
+        start = 1000000 * tv_start.tv_sec + tv_start.tv_usec;
+        finish = 1000000 * tv_finish.tv_sec + tv_finish.tv_usec;
         duration = ((float) (finish - start)) / 1000000;
 
         printf("%.06f seconds: %d times: %s(%d)\n", duration, CYCLES, function_names[i], HEIGHT);
