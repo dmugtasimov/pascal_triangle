@@ -1,12 +1,12 @@
- d#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
 
-typedef void (*fp)(int);
+typedef void (*fp)(int, int);
 
 
-void c_print_pascal_triangle(int height) {
+void c_print_pascal_triangle(int height, int silent) {
     int line[height + 1];
     line[height] = 0;
 
@@ -21,15 +21,15 @@ void c_print_pascal_triangle(int height) {
         }
 
         for (index = start + size - 1; index >= start; index--) {
-            // printf("%d ", line[index]);
+            if(!silent) printf("%d ", line[index]);
         }
-        // printf("\n");
+        if(!silent) printf("\n");
 
         start--;
     }
 }
 
-void c_print_pascal_triangle_full_asm_implementation(int height) {
+void c_print_pascal_triangle_full_asm_implementation(int height, int silent) {
     int line[height + 1];
 
     asm (
@@ -76,26 +76,27 @@ int main(int argc, const char* argv[]) {
     fp function;
     int length = (int) (sizeof(functions) / sizeof(fp));
     int i;
-    int height, cycle, cycles;
+    int height, cycle, cycles, silent;
     struct timeval tv_start;
     struct timeval tv_finish;
     unsigned long start;
     unsigned long finish;
     float duration;
 
-    if(argc < 2) {
-        printf("USAGE: %s height cycles\n", argv[0]);
+    if(argc < 3) {
+        printf("USAGE: %s height cycles [silent]\n", argv[0]);
         return 1;
     }
     height = atoi(argv[1]);
     cycles = atoi(argv[2]);
+    silent = argc > 3 ? atoi(argv[3]) : 1;
 
     for(i = 0; i < length; i++) {
         function = functions[i];
 
         gettimeofday(&tv_start, NULL);
         for(cycle = 0; cycle < cycles; cycle++) {
-            function(height);
+            function(height, silent);
         }
         gettimeofday(&tv_finish, NULL);
         start = 1000000 * tv_start.tv_sec + tv_start.tv_usec;
