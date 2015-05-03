@@ -258,10 +258,10 @@ class CyPascalTriangle(object):
 class CPascalTriangle(object):
 
     def c_print_pascal_triangle(self, height):
-        c_print_pascal_triangle(height)
+        c_print_pascal_triangle(height, True)
 
     def c_print_pascal_triangle_inline_asm(self, height):
-        c_print_pascal_triangle_inline_asm(height)
+        c_print_pascal_triangle_inline_asm(height, True)
 
     def c_print_pascal_triangle_full_asm_implementation(self, height):
         c_print_pascal_triangle_full_asm_implementation(height)
