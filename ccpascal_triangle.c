@@ -1,10 +1,9 @@
-#include <stdio.h>
+ d#include <stdio.h>
+#include <stdlib.h>
 #include <sys/time.h>
 
 
 typedef void (*fp)(int);
-#define HEIGHT 200
-#define CYCLES 100
 
 
 void c_print_pascal_triangle(int height) {
@@ -77,26 +76,33 @@ int main(int argc, const char* argv[]) {
     fp function;
     int length = (int) (sizeof(functions) / sizeof(fp));
     int i;
-    int cycle;
+    int height, cycle, cycles;
     struct timeval tv_start;
     struct timeval tv_finish;
     unsigned long start;
     unsigned long finish;
     float duration;
 
+    if(argc < 2) {
+        printf("USAGE: %s height cycles\n", argv[0]);
+        return 1;
+    }
+    height = atoi(argv[1]);
+    cycles = atoi(argv[2]);
+
     for(i = 0; i < length; i++) {
         function = functions[i];
 
         gettimeofday(&tv_start, NULL);
-        for(cycle = 0; cycle < CYCLES; cycle++) {
-            function(HEIGHT);
+        for(cycle = 0; cycle < cycles; cycle++) {
+            function(height);
         }
         gettimeofday(&tv_finish, NULL);
         start = 1000000 * tv_start.tv_sec + tv_start.tv_usec;
         finish = 1000000 * tv_finish.tv_sec + tv_finish.tv_usec;
         duration = ((float) (finish - start)) / 1000000;
 
-        printf("%.06f seconds: %d times: %s(%d)\n", duration, CYCLES, function_names[i], HEIGHT);
+        printf("%.06f seconds: %d times: %s(%d)\n", duration, cycles, function_names[i], height);
     }
     return 0;
 }

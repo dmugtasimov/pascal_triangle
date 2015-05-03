@@ -4,7 +4,12 @@ Install::
 
 Build pure C solution::
 
-    gcc -fPIC -pthread -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle ccpascal_triangle.c
+    # With ~ the same options as setup.py does
+    gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle ccpascal_triangle.c
+    # Simply moderate optimization
+    gcc -O2 -o ccpascal_triangle ccpascal_triangle.c
+    # Set execution bit
+    chmod a+x ./ccpascal_triangle
 
 Run unit tests::
 
