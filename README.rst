@@ -1,5 +1,6 @@
 Install::
 
+    pip install Cython
     pip install -e .
 
 Build pure C solution::

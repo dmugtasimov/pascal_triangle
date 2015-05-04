@@ -11,10 +11,12 @@ pascal_triangle_testable._print = lambda self: None
 """
 
 STATEMENT = 'pascal_triangle_testable.%s(%s)'
+BASE_IMPLEMENTATION_METHOD_NAME = 'print_pascal_triangle_testable_fixed_better_naming'
 
 
 def run_performance_test(height, cycles):
     results = []
+    base_duration = None
     for test_class in TEST_CLASSES:
         class_name = test_class.__name__
         setup = SETUP % (class_name, class_name)
@@ -26,13 +28,24 @@ def run_performance_test(height, cycles):
             duration = timeit.timeit(statement, setup=setup, number=cycles)
             line = '%.06f seconds: %s times: %s.%s(%s)' % (duration, cycles, class_name, method_name,
                                                         height)
+            if method_name == BASE_IMPLEMENTATION_METHOD_NAME:
+                base_duration = duration
+                line += '*'
             print line
             results.append((duration, line))
 
         print '-' * 40
 
     print '---=== SORTED ===---'
-    for line in [y[1] for y in sorted(results, key=lambda x: x[0])]:
+    for duration, line in (_ for _ in sorted(results, key=lambda x: x[0])):
+        if base_duration is not None:
+            if duration < base_duration:
+                factor = '%-6.02f times faster:  ' % (base_duration / float(duration))
+            elif duration == base_duration:
+                factor = 'The same performance: '
+            else:
+                factor = '%-6.02f times slower:  ' % (duration / float(base_duration))
+            line = factor + line
         print line
 
 

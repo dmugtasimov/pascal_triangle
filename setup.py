@@ -12,6 +12,7 @@ setup(
     description='Print Pascal''s Triangle solutions',
     platforms='any',
     packages=setuptools.find_packages(),
-    install_requires=('Cython==0.22', 'mock==1.0.1'),
+    setup_requires=('Cython==0.22',),
+    install_requires=('mock==1.0.1',),
     ext_modules=ext_modules
 )
