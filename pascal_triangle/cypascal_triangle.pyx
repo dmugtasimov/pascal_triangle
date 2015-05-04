@@ -2,6 +2,9 @@ import sys
 import itertools
 import collections
 
+from cpython cimport array as c_array
+from array import array
+
 ZERO_LIST = [0]
 ONE_LIST = [1]
 
@@ -62,7 +65,32 @@ def cy_print_pascal_triangle_non_recursive_less_c_like(height, verbose=False):
 
 
 def cy_print_pascal_triangle_c_types(height, verbose=False):
-    cdef line = ONE_LIST * height + ZERO_LIST
+    cdef c_array.array line = array('I', ONE_LIST * height + ZERO_LIST)
+    cdef int start = height - 1
+    cdef int size = 1
+    cdef int index
+    cdef int i
+    cdef int finish
+    while size <= height:
+        index = start + 1
+        while index < height:
+            line[index] += line[index + 1]
+            index += 1
+
+        i = start
+        finish = start + size
+        while i < finish:
+            if verbose:
+                sys.stdout.write(str(line[i]) + " ")
+            i += 1
+        if verbose:
+            print
+
+        start -= 1
+        size += 1
+
+def cy_print_pascal_triangle_c_types_ulong(height, verbose=False):
+    cdef c_array.array line = array('L', ONE_LIST * height + ZERO_LIST)
     cdef int start = height - 1
     cdef int size = 1
     cdef int index

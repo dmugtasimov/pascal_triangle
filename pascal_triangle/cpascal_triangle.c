@@ -1,16 +1,62 @@
 #include <Python.h>
 #include <stdio.h>
 
+// TODO MEDIUM: Define constants in one place
+#define MAX_HEIGHT_UINT 35
+#define MAX_HEIGHT_ULONG 68
+
 static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
     int height, verbose=0;
     if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
-    int line[height + 1];
+    unsigned int line[height + 1];
     line[height] = 0;
 
     int start = height - 1;
     int size;
     int index;
+
+    if(height > MAX_HEIGHT_UINT) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
+
+    for (size = 1; size <= height; size++) {
+        line[start] = 1;
+        for (index = start + 1; index < height; index++) {
+            line[index] += line[index + 1];
+        }
+
+        for (index = start + size - 1; index >= start; index--) {
+            if(verbose) printf("%d ", line[index]);
+        }
+        if(verbose) printf("\n");
+
+        start--;
+    }
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+
+static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
+    int height, verbose=0;
+    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
+
+    unsigned long line[height + 1];
+    line[height] = 0;
+
+    int start = height - 1;
+    int size;
+    int index;
+
+    if(height > MAX_HEIGHT_ULONG) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 
     for (size = 1; size <= height; size++) {
         line[start] = 1;
@@ -35,11 +81,16 @@ static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* ar
     int height, verbose=0;
     if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
+    unsigned int line[height + 1];
     int start = height - 1;
     int size;
     int index;
 
-    int line[height + 1];
+    if(height > MAX_HEIGHT_UINT) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 
     // Fill in line with 1 and put 0 in the end
     asm ("movl %0, %%ecx\n\t"
@@ -76,7 +127,13 @@ static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self,
     int height;
     if (!PyArg_ParseTuple(args, "i", &height)) return NULL;
 
-    int line[height + 1];
+    unsigned int line[height + 1];
+
+    if(height > MAX_HEIGHT_UINT) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 
     asm (
          // Fill in line with 1 and put 0 in the end
@@ -120,6 +177,7 @@ static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self,
 
 static PyMethodDef cpascal_triangle_methods[] = {
     {"c_print_pascal_triangle", c_print_pascal_triangle, METH_VARARGS},
+    {"c_print_pascal_triangle_ulong", c_print_pascal_triangle_ulong, METH_VARARGS},
     {"c_print_pascal_triangle_inline_asm", c_print_pascal_triangle_inline_asm, METH_VARARGS},
     {"c_print_pascal_triangle_full_asm_implementation",
                               c_print_pascal_triangle_full_asm_implementation, METH_VARARGS},

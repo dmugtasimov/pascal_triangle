@@ -5,14 +5,21 @@
 
 typedef void (*fp)(int, int);
 
+#define MAX_HEIGHT_UINT 35
+#define MAX_HEIGHT_ULONG 68
 
-void c_print_pascal_triangle(int height, int silent) {
-    int line[height + 1];
+void c_print_pascal_triangle(int height, int verbose) {
+    unsigned int line[height + 1];
     line[height] = 0;
 
     int start = height - 1;
     int size;
     int index;
+
+    if(height > MAX_HEIGHT_UINT) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
+        return;
+    }
 
     for (size = 1; size <= height; size++) {
         line[start] = 1;
@@ -21,16 +28,49 @@ void c_print_pascal_triangle(int height, int silent) {
         }
 
         for (index = start + size - 1; index >= start; index--) {
-            if(!silent) printf("%d ", line[index]);
+            if(verbose) printf("%d ", line[index]);
         }
-        if(!silent) printf("\n");
+        if(verbose) printf("\n");
 
         start--;
     }
 }
 
-void c_print_pascal_triangle_full_asm_implementation(int height, int silent) {
-    int line[height + 1];
+void c_print_pascal_triangle_ulong(int height, int verbose) {
+    unsigned long line[height + 1];
+    line[height] = 0;
+
+    int start = height - 1;
+    int size;
+    int index;
+
+    if(height > MAX_HEIGHT_ULONG) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_ULONG);
+        return;
+    }
+
+    for (size = 1; size <= height; size++) {
+        line[start] = 1;
+        for (index = start + 1; index < height; index++) {
+            line[index] += line[index + 1];
+        }
+
+        for (index = start + size - 1; index >= start; index--) {
+            if(verbose) printf("%lu ", line[index]);
+        }
+        if(verbose) printf("\n");
+
+        start--;
+    }
+}
+
+void c_print_pascal_triangle_full_asm_implementation(int height, int verbose) {
+    unsigned int line[height + 1];
+
+    if(height > MAX_HEIGHT_UINT) {
+        printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
+        return;
+    }
 
     asm (
          // Fill in line with 1 and put 0 in the end
@@ -70,13 +110,15 @@ void c_print_pascal_triangle_full_asm_implementation(int height, int silent) {
 
 int main(int argc, const char* argv[]) {
     char *function_names[] = {"c_print_pascal_triangle",
+                              "c_print_pascal_triangle_ulong",
                               "c_print_pascal_triangle_full_asm_implementation"};
     fp functions[] = {c_print_pascal_triangle,
+                      c_print_pascal_triangle_ulong,
                       c_print_pascal_triangle_full_asm_implementation};
     fp function;
     int length = (int) (sizeof(functions) / sizeof(fp));
     int i;
-    int height, cycle, cycles, silent;
+    int height, cycle, cycles, verbose;
     struct timeval tv_start;
     struct timeval tv_finish;
     unsigned long start;
@@ -84,19 +126,19 @@ int main(int argc, const char* argv[]) {
     float duration;
 
     if(argc < 3) {
-        printf("USAGE: %s height cycles [silent]\n", argv[0]);
+        printf("USAGE: %s height cycles [verbose]\n", argv[0]);
         return 1;
     }
     height = atoi(argv[1]);
     cycles = atoi(argv[2]);
-    silent = argc > 3 ? atoi(argv[3]) : 1;
+    verbose = argc > 3 ? atoi(argv[3]) : 0;
 
     for(i = 0; i < length; i++) {
         function = functions[i];
 
         gettimeofday(&tv_start, NULL);
         for(cycle = 0; cycle < cycles; cycle++) {
-            function(height, silent);
+            function(height, verbose);
         }
         gettimeofday(&tv_finish, NULL);
         start = 1000000 * tv_start.tv_sec + tv_start.tv_usec;
