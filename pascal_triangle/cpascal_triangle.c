@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
-    int height, silent;
-    if (!PyArg_ParseTuple(args, "ii", &height, &silent)) return NULL;
+    int height, verbose=0;
+    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
     int line[height + 1];
     line[height] = 0;
@@ -19,9 +19,9 @@ static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
         }
 
         for (index = start + size - 1; index >= start; index--) {
-            if(!silent) printf("%d ", line[index]);
+            if(verbose) printf("%d ", line[index]);
         }
-        if(!silent) printf("\n");
+        if(verbose) printf("\n");
 
         start--;
     }
@@ -32,8 +32,8 @@ static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
 
 
 static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* args) {
-    int height, silent;
-    if (!PyArg_ParseTuple(args, "ii", &height, &silent)) return NULL;
+    int height, verbose=0;
+    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
     int start = height - 1;
     int size;
@@ -60,9 +60,9 @@ static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* ar
         }
 
         for (index = start + size - 1; index >= start; index--) {
-            if(!silent) printf("%d ", line[index]);
+            if(verbose) printf("%d ", line[index]);
         }
-        if(!silent) printf("\n");
+        if(verbose) printf("\n");
 
         start--;
     }
