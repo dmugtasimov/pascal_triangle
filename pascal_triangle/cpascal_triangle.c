@@ -65,7 +65,7 @@ static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
         }
 
         for (index = start + size - 1; index >= start; index--) {
-            if(verbose) printf("%d ", line[index]);
+            if(verbose) printf("%lu ", line[index]);
         }
         if(verbose) printf("\n");
 

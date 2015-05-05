@@ -50,4 +50,4 @@ def run_performance_test(height, cycles):
 
 
 if __name__ == '__main__':
-    run_performance_test(35, 100)
+    run_performance_test(35, 1000)
