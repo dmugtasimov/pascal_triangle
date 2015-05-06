@@ -13,6 +13,6 @@ setup(
     platforms='any',
     packages=setuptools.find_packages(),
     setup_requires=('Cython==0.22',),
-    install_requires=('mock==1.0.1',),
+    install_requires=('Cython==0.22', 'mock==1.0.1',),
     ext_modules=ext_modules
 )

@@ -7,7 +7,7 @@ Build pure C solution::
 
     # With ~ the same options as setup.py does
     gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle ccpascal_triangle.c
-    # Simply moderate optimization
+    # With moderate optimization
     gcc -O2 -o ccpascal_triangle ccpascal_triangle.c
     # Set execution bit
     chmod a+x ./ccpascal_triangle
@@ -19,6 +19,13 @@ Run unit tests::
 Run functional manual tests (check expected results manually)::
 
     python -m pascal_triangle.tests.functional_manual_test
+
+Set constant CPU frequency::
+
+    sudo cpufreq-set -c 0 -g performance
+    sudo cpufreq-set -c 1 -g performance
+    ...
+    sudo cpufreq-set -c n -g performance
 
 Run performance tests::
 
