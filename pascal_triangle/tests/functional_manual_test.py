@@ -1,3 +1,4 @@
+from pascal_triangle.pascal_triangle import PyPascalTriangle
 from pascal_triangle.cypascal_triangle import (cy_print_pascal_triangle_iterators,
     cy_print_pascal_triangle_non_recursive_even_more_c_like_improved,
     cy_print_pascal_triangle_non_recursive_less_c_like,
@@ -6,6 +7,9 @@ from pascal_triangle.cypascal_triangle import (cy_print_pascal_triangle_iterator
 
 from pascal_triangle.cpascal_triangle import (c_print_pascal_triangle, c_print_pascal_triangle_inline_asm)
 
+printer = PyPascalTriangle()
+print 'cy_print_pascal_triangle_iterators:'
+printer.print_pascal_triangle_testable_fixed_better_naming(5)
 print 'cy_print_pascal_triangle_iterators:'
 cy_print_pascal_triangle_iterators(5, True)
 print 'cy_print_pascal_triangle_non_recursive_even_more_c_like_improved:'

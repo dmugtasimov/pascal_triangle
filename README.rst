@@ -20,6 +20,10 @@ Run functional manual tests (check expected results manually)::
 
     python -m pascal_triangle.tests.functional_manual_test
 
+Run limitation tests::
+
+    python -m pascal_triangle.tests.limitation_test
+
 Set constant CPU frequency::
 
     sudo cpufreq-set -c 0 -g performance

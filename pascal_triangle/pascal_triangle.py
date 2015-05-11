@@ -37,7 +37,7 @@ class PyPascalTriangle(object):
 
     def _print(self, arg):
         """
-        Print Pascal'S Triangle line
+        Print Pascal's Triangle line
         :param arg: triangle line
         """
         print arg
@@ -241,34 +241,34 @@ class CyPascalTriangle(object):
         return cy_print_pascal_triangle_iterators(height)
 
     def print_pascal_triangle_non_recursive_iterators(self, height):
-        cy_print_pascal_triangle_non_recursive_iterators(height)
+        return cy_print_pascal_triangle_non_recursive_iterators(height)
 
     def print_pascal_triangle_non_recursive_even_more_c_like_improved(self, height):
-        cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height)
+        return cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height)
 
     def print_pascal_triangle_non_recursive_less_c_like(self, height):
-        cy_print_pascal_triangle_non_recursive_less_c_like(height)
+        return cy_print_pascal_triangle_non_recursive_less_c_like(height)
 
     def print_pascal_triangle_c_types(self, height):
-        cy_print_pascal_triangle_c_types(height)
+        return cy_print_pascal_triangle_c_types(height)
 
     def print_pascal_triangle_c_types_ulong(self, height):
-        cy_print_pascal_triangle_c_types_ulong(height)
+        return cy_print_pascal_triangle_c_types_ulong(height)
 
     def print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(self, height):
-        cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height)
+        return cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height)
 
 
 class CPascalTriangle(object):
 
     def print_pascal_triangle(self, height):
-        c_print_pascal_triangle(height)
+        return c_print_pascal_triangle(height)
 
     def print_pascal_triangle_ulong(self, height):
-        c_print_pascal_triangle_ulong(height)
+        return c_print_pascal_triangle_ulong(height)
 
     def print_pascal_triangle_inline_asm(self, height):
-        c_print_pascal_triangle_inline_asm(height)
+        return c_print_pascal_triangle_inline_asm(height)
 
     def print_pascal_triangle_full_asm_implementation(self, height):
-        c_print_pascal_triangle_full_asm_implementation(height)
+        return c_print_pascal_triangle_full_asm_implementation(height)

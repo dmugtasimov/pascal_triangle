@@ -14,7 +14,7 @@ def test_method_template(method_name):
 
     TRI_HEIGH = 5
     CALLS_5 = [call([1]), call([1, 1]), call([1, 2, 1]), call([1, 3, 3, 1]),
-                    call([1, 4, 6, 4, 1])]
+               call([1, 4, 6, 4, 1])]
 
     def test_method(self):
         method = getattr(self.pascal_triangle_testable, method_name)
