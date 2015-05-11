@@ -1,5 +1,6 @@
 import itertools
 import collections
+import array
 
 from .cypascal_triangle import (cy_print_pascal_triangle_iterators,
     cy_print_pascal_triangle_non_recursive_iterators,
@@ -35,12 +36,18 @@ class PyPascalTriangle(object):
     ZERO_TUPLE = (0,)
     ONE_TUPLE = (1,)
 
+    def _test_print(self, arg):
+        print arg
+
     def _print(self, arg):
         """
         Print Pascal's Triangle line
         :param arg: triangle line
         """
-        print arg
+        if not isinstance(arg, list):
+            arg = list(arg)
+
+        self._test_print(arg)
 
     def print_pascal_triangle_testable_fixed_better_naming(self, height):
         """
@@ -124,17 +131,22 @@ class PyPascalTriangle(object):
                 line[i] += line[i + 1]
             self._print(line)
 
+        return line  # return last line for testing purposes
+
+
     def print_pascal_triangle_non_recursive_deque(self, height):
         """
-        Print Pascal's Triangle of height n: non-recursive deque.
-        :param height: height of the triangle to print, zero-based
-        """
+                Print Pascal's Triangle of height n: non-recursive deque.
+                :param height: height of the triangle to print, zero-based
+                """
         line = collections.deque()
         for x in xrange(height + 1):
             line.appendleft(1)
             for i in xrange(1, x):
                 line[i] += line[i + 1]
-            self._print(list(line))
+            self._print(line)
+
+        return line  # return last line for testing purposes
 
     def print_pascal_triangle_non_recursive_deque_c_like(self, height):
         """
@@ -150,8 +162,10 @@ class PyPascalTriangle(object):
             while i < size:
                 line[i] += line[i + 1]
                 i += 1
-            self._print(list(line))
+            self._print(line)
             size += 1
+
+        return line  # return last line for testing purposes
 
     def print_pascal_triangle_non_recursive_even_more_c_like(self, height):
         """
@@ -174,6 +188,8 @@ class PyPascalTriangle(object):
             start -= 1
             size += 1
 
+        return line  # return last line for testing purposes
+
     def print_pascal_triangle_non_recursive_even_more_c_like_improved(self, height):
         """
         Print Pascal's Triangle of height n: non-recursive even more c-like style, improved.
@@ -193,6 +209,8 @@ class PyPascalTriangle(object):
             start -= 1
             size += 1
 
+        return line  # return last line for testing purposes
+
     def print_pascal_triangle_non_recursive_less_c_like(self, height):
         """
         Print Pascal's Triangle of height n: non-recursive less c-like style.
@@ -208,11 +226,33 @@ class PyPascalTriangle(object):
             self._print(print_line)
             start -= 1
 
+        return line  # return last line for testing purposes
+
+    def print_pascal_triangle_non_recursive_array(self, height):
+        """
+        Print Pascal's Triangle of height n: non-recursive less c-like style.
+        :param height: height of the triangle to print, zero-based
+        """
+
+        line = array.array('I', itertools.repeat(1, height + 1))
+        start = height
+        for size in xrange(height + 1):
+            for index in xrange(start + 1, height):
+                line[index] += line[index + 1]
+            print_line = line[start:]
+            self._print(print_line)
+            start -= 1
+
+        return line  # return last line for testing purposes
+
     def print_pascal_triangle_non_recursive_iterators(self, height):
         """
         Print Pascal's Triangle of height n: using iterators, non-recursive.
         :param height: height of the triangle to print, zero-based
         """
+
+        if height < 0:
+            return []
 
         line = self.ONE_LIST
         self._print(line)
@@ -221,6 +261,8 @@ class PyPascalTriangle(object):
             ahead_iterator = itertools.chain(line, self.ZERO_LIST)
             line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
             self._print(line)
+
+        return line
 
 
 class CyPascalTriangle(object):
@@ -249,14 +291,17 @@ class CyPascalTriangle(object):
 
 class CPascalTriangle(object):
 
+    def __init__(self, return_list=False):
+        self.return_list = return_list
+
     def print_pascal_triangle(self, height):
-        return c_print_pascal_triangle(height)
+        return c_print_pascal_triangle(height, False, self.return_list)
 
     def print_pascal_triangle_ulong(self, height):
-        return c_print_pascal_triangle_ulong(height)
+        return c_print_pascal_triangle_ulong(height, False, self.return_list)
 
     def print_pascal_triangle_inline_asm(self, height):
-        return c_print_pascal_triangle_inline_asm(height)
+        return c_print_pascal_triangle_inline_asm(height, False, self.return_list)
 
     def print_pascal_triangle_full_asm_implementation(self, height):
-        return c_print_pascal_triangle_full_asm_implementation(height)
+        return c_print_pascal_triangle_full_asm_implementation(height, False, self.return_list)

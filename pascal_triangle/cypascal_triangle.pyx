@@ -11,7 +11,8 @@ ONE_LIST = [1]
 
 def cy_print_pascal_triangle_iterators(height, verbose=False):
     if height == 0:
-        # print ONE_LIST
+        if verbose:
+            print ONE_LIST
         return ONE_LIST
     elif height < 0:
         return []
@@ -22,10 +23,13 @@ def cy_print_pascal_triangle_iterators(height, verbose=False):
     line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
     if verbose:
         print line
-    return line
+    return line  # return last line for testing purposes
 
 
 def cy_print_pascal_triangle_non_recursive_iterators(height, verbose=False):
+    if height < 0:
+        return []
+
     line = ONE_LIST
     if verbose:
         print line
@@ -35,6 +39,7 @@ def cy_print_pascal_triangle_non_recursive_iterators(height, verbose=False):
         line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
         if verbose:
             print line
+    return line  # return last line for testing purposes
 
 
 def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height, verbose=False):
@@ -51,6 +56,8 @@ def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height, ver
             print print_line
         start -= 1
         size += 1
+    return line  # return last line for testing purposes
+
 
 def cy_print_pascal_triangle_non_recursive_less_c_like(height, verbose=False):
     line = ONE_LIST * (height + 1)
@@ -62,6 +69,7 @@ def cy_print_pascal_triangle_non_recursive_less_c_like(height, verbose=False):
         if verbose:
             print print_line
         start -= 1
+    return line  # return last line for testing purposes
 
 
 def cy_print_pascal_triangle_c_types(height, verbose=False):
@@ -88,6 +96,8 @@ def cy_print_pascal_triangle_c_types(height, verbose=False):
 
         start -= 1
         size += 1
+    return line  # return last line for testing purposes
+
 
 def cy_print_pascal_triangle_c_types_ulong(height, verbose=False):
     cdef c_array.array line = array('L', ONE_LIST * (height + 1))
@@ -113,6 +123,8 @@ def cy_print_pascal_triangle_c_types_ulong(height, verbose=False):
 
         start -= 1
         size += 1
+    return line  # return last line for testing purposes
+
 
 def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height, verbose=False):
     line = ONE_LIST * (height + 1)
@@ -135,3 +147,4 @@ def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height
 
         start -= 1
         size += 1
+    return line  # return last line for testing purposes

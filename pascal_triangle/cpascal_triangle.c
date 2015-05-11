@@ -8,8 +8,8 @@
 #define MAX_HEIGHT_ULONG 67
 
 static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
-    int height, verbose=0;
-    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
+    int height, verbose=0, return_list=0;
+    if (!PyArg_ParseTuple(args, "i|ii", &height, &verbose, &return_list)) return NULL;
 
     unsigned int line[height + 1];
 
@@ -36,14 +36,22 @@ static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
         start--;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    if(return_list) {
+        PyObject* py_line = PyList_New(height + 1);
+        for (index = height; index >= 0; index--) {
+            PyList_SetItem(py_line, index, PyInt_FromLong((long) line[index]));
+        }
+        return py_line;
+    } else {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 }
 
 
 static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
-    int height, verbose=0;
-    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
+    int height, verbose=0, return_list=0;
+    if (!PyArg_ParseTuple(args, "i|ii", &height, &verbose, &return_list)) return NULL;
 
     unsigned long line[height + 1];
 
@@ -70,14 +78,22 @@ static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
         start--;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    if(return_list) {
+        PyObject* py_line = PyList_New(height + 1);
+        for (index = height; index >= 0; index--) {
+            PyList_SetItem(py_line, index, PyInt_FromLong((long) line[index]));
+        }
+        return py_line;
+    } else {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 }
 
 
 static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* args) {
-    int height, verbose=0;
-    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
+    int height, verbose=0, return_list=0;
+    if (!PyArg_ParseTuple(args, "i|ii", &height, &verbose, &return_list)) return NULL;
 
     unsigned int line[height + 1];
 
@@ -116,14 +132,22 @@ static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* ar
         start--;
     }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    if(return_list) {
+        PyObject* py_line = PyList_New(height + 1);
+        for (index = height; index >= 0; index--) {
+            PyList_SetItem(py_line, index, PyInt_FromLong((long) line[index]));
+        }
+        return py_line;
+    } else {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 }
 
 
 static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self, PyObject* args) {
-    int height, verbose=0;
-    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
+    int height, verbose=0, return_list=0;
+    if (!PyArg_ParseTuple(args, "i|ii", &height, &verbose, &return_list)) return NULL;
 
     // TODO MEDIUM: Make a better fix to support zero-based Pascal's Triangle
     height++;
@@ -170,14 +194,24 @@ static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self,
          : "eax", "rbx", "rcx", "rdx", "rdi", "r8"
         );
 
-    // Ensure that no compiler optimization is applied to not actually executing the assembly code
-    for (index = height - 1; index >= 0; index--) {
-        if(verbose) printf("%d ", line[index]);
+    // Some code that used results to ensure that optimization is not applied and assembly code is actually executing
+    if(verbose) {
+        for (index = height - 1; index >= 0; index--) {
+            if(verbose) printf("%d ", line[index]);
+        }
+        if(verbose) printf("\n");
     }
-    if(verbose) printf("\n");
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    if(return_list) {
+        PyObject* py_line = PyList_New(height);
+        for (index = height - 1; index >= 0; index--) {
+            PyList_SetItem(py_line, index, PyInt_FromLong((long) line[index]));
+        }
+        return py_line;
+    } else {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
 }
 
 

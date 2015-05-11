@@ -19,7 +19,7 @@ def test_method_template(method_name):
     def test_method(self):
         method = getattr(self.pascal_triangle_testable, method_name)
         method(TRI_HEIGH)
-        self.pascal_triangle_testable._print.assert_has_calls(CALLS_5)
+        self.pascal_triangle_testable._test_print.assert_has_calls(CALLS_5)
 
     return test_method
 
@@ -45,5 +45,5 @@ class TestPascalTriagnale(unittest.TestCase):
         cls.pascal_triangle_testable = _TEST_CLASS()
 
     def setUp(self):
-        self.pascal_triangle_testable._print = Mock()
+        self.pascal_triangle_testable._test_print = Mock()
 

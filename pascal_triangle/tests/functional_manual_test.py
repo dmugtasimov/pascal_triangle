@@ -16,6 +16,8 @@ print 'print_pascal_triangle_testable_fixed_better_naming:'
 printer.print_pascal_triangle_testable_fixed_better_naming(TRI_HEIGH)
 print 'print_pascal_triangle_non_recursive_even_more_c_like:'
 printer.print_pascal_triangle_non_recursive_even_more_c_like(TRI_HEIGH)
+print 'print_pascal_triangle_non_recursive_array:'
+printer.print_pascal_triangle_non_recursive_array(TRI_HEIGH)
 print 'cy_print_pascal_triangle_non_recursive_iterators:'
 cy_print_pascal_triangle_non_recursive_iterators(TRI_HEIGH, True)
 print 'cy_print_pascal_triangle_iterators:'
