@@ -81,7 +81,7 @@ static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
     if(return_list) {
         PyObject* py_line = PyList_New(height + 1);
         for (index = height; index >= 0; index--) {
-            PyList_SetItem(py_line, index, PyInt_FromLong((long) line[index]));
+            PyList_SetItem(py_line, index, PyLong_FromUnsignedLong(line[index]));
         }
         return py_line;
     } else {
