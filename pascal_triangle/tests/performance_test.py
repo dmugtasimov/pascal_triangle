@@ -59,7 +59,7 @@ def run_performance_test(height, cycles):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run performance test of building Pascal\'s Triangle')
-    parser.add_argument('-s', '--height', default=35, type=int,
+    parser.add_argument('-s', '--height', default=34, type=int,
                         help='height of Pascal\'s Triangle')
     parser.add_argument('-c', '--cycles', default=1000, type=int,
                         help='number of cycles to run for each implementation (default: 1000)')

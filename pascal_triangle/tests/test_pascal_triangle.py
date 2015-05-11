@@ -12,7 +12,7 @@ _TEST_CLASS = PyPascalTriangle
 
 def test_method_template(method_name):
 
-    TRI_HEIGH = 5
+    TRI_HEIGH = 4
     CALLS_5 = [call([1]), call([1, 1]), call([1, 2, 1]), call([1, 3, 3, 1]),
                call([1, 4, 6, 4, 1])]
 

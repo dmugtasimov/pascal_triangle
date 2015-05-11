@@ -2,17 +2,18 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+// TODO LOW: Allocate memory on heap using malloc()
 
 typedef void (*fp)(int, int);
 
-#define MAX_HEIGHT_UINT 35
-#define MAX_HEIGHT_ULONG 68
+// TODO MEDIUM: Define constants in one place
+#define MAX_HEIGHT_UINT 34
+#define MAX_HEIGHT_ULONG 67
 
 void c_print_pascal_triangle(int height, int verbose) {
     unsigned int line[height + 1];
-    line[height] = 0;
 
-    int start = height - 1;
+    int start = height;
     int size;
     int index;
 
@@ -21,13 +22,13 @@ void c_print_pascal_triangle(int height, int verbose) {
         return;
     }
 
-    for (size = 1; size <= height; size++) {
+    for (size = 0; size <= height; size++) {
         line[start] = 1;
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
 
-        for (index = start + size - 1; index >= start; index--) {
+        for (index = start + size; index >= start; index--) {
             if(verbose) printf("%d ", line[index]);
         }
         if(verbose) printf("\n");
@@ -38,9 +39,8 @@ void c_print_pascal_triangle(int height, int verbose) {
 
 void c_print_pascal_triangle_ulong(int height, int verbose) {
     unsigned long line[height + 1];
-    line[height] = 0;
 
-    int start = height - 1;
+    int start = height;
     int size;
     int index;
 
@@ -49,13 +49,13 @@ void c_print_pascal_triangle_ulong(int height, int verbose) {
         return;
     }
 
-    for (size = 1; size <= height; size++) {
+    for (size = 0; size <= height; size++) {
         line[start] = 1;
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
 
-        for (index = start + size - 1; index >= start; index--) {
+        for (index = start + size; index >= start; index--) {
             if(verbose) printf("%lu ", line[index]);
         }
         if(verbose) printf("\n");
@@ -65,9 +65,12 @@ void c_print_pascal_triangle_ulong(int height, int verbose) {
 }
 
 void c_print_pascal_triangle_full_asm_implementation(int height, int verbose) {
+    // TODO MEDIUM: Make a better fix to support zero-based Pascal's Triangle
+    height++;
     unsigned int line[height + 1];
+    int index;
 
-    if(height > MAX_HEIGHT_UINT) {
+    if(height > MAX_HEIGHT_UINT + 1) {
         printf("Unable to build Pascal' Triangle higher than %d lines\n", MAX_HEIGHT_UINT);
         return;
     }
@@ -81,7 +84,7 @@ void c_print_pascal_triangle_full_asm_implementation(int height, int verbose) {
          "rep\n\t"
          "stosl\n\t"
          // End of filling
-         "movq $0, (%%rdi)\n\t"
+         "movq $0, (%%rdi)\n\t"  // TODO MEDIUM: There is no need for zero-padding
          "movq $1, %%rcx\n\t"  // line number being processed
          "xorq %%rdx, %%rdx\n\t"
          "movl %0, %%edx\n\t"  // maximum number of lines
@@ -106,6 +109,12 @@ void c_print_pascal_triangle_full_asm_implementation(int height, int verbose) {
          : "g" (height), "g" (line)
          : "eax", "rbx", "rcx", "rdx", "rdi", "r8"
         );
+
+    // Ensure that no compiler optimization is applied to not actually executing the assembly code
+    for (index = height - 1; index >= 0; index--) {
+        if(verbose) printf("%d ", line[index]);
+    }
+    if(verbose) printf("\n");
 }
 
 int main(int argc, const char* argv[]) {

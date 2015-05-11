@@ -1,18 +1,19 @@
 #include <Python.h>
 #include <stdio.h>
 
+// TODO LOW: Allocate memory on heap using malloc() instead of stack
+
 // TODO MEDIUM: Define constants in one place
-#define MAX_HEIGHT_UINT 35
-#define MAX_HEIGHT_ULONG 68
+#define MAX_HEIGHT_UINT 34
+#define MAX_HEIGHT_ULONG 67
 
 static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
     int height, verbose=0;
     if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
     unsigned int line[height + 1];
-    line[height] = 0;
 
-    int start = height - 1;
+    int start = height;
     int size;
     int index;
 
@@ -21,13 +22,13 @@ static PyObject* c_print_pascal_triangle(PyObject* self, PyObject* args) {
         return NULL;
     }
 
-    for (size = 1; size <= height; size++) {
+    for (size = 0; size <= height; size++) {
         line[start] = 1;
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
 
-        for (index = start + size - 1; index >= start; index--) {
+        for (index = start + size; index >= start; index--) {
             if(verbose) printf("%d ", line[index]);
         }
         if(verbose) printf("\n");
@@ -45,9 +46,8 @@ static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
     unsigned long line[height + 1];
-    line[height] = 0;
 
-    int start = height - 1;
+    int start = height;
     int size;
     int index;
 
@@ -56,13 +56,13 @@ static PyObject* c_print_pascal_triangle_ulong(PyObject* self, PyObject* args) {
         return NULL;
     }
 
-    for (size = 1; size <= height; size++) {
+    for (size = 0; size <= height; size++) {
         line[start] = 1;
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
 
-        for (index = start + size - 1; index >= start; index--) {
+        for (index = start + size; index >= start; index--) {
             if(verbose) printf("%lu ", line[index]);
         }
         if(verbose) printf("\n");
@@ -80,7 +80,8 @@ static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* ar
     if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
     unsigned int line[height + 1];
-    int start = height - 1;
+
+    int start = height;
     int size;
     int index;
 
@@ -89,25 +90,25 @@ static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* ar
         return NULL;
     }
 
-    // Fill in line with 1 and put 0 in the end
+    // Fill in line with 1
     asm ("movl %0, %%ecx\n\t"
          "movq %1, %%rdi\n\t"
+         "incl %%ecx\n\t"
          "movl $1, %%eax\n\t"
          "cld\n\t"
          "rep\n\t"
          "stosl\n\t"
-         "movq $0, (%%rdi)\n\t"
          : /**/
          : "g" (height), "g" (line)
          : "eax", "ecx", "rdi"
         );
 
-    for (size = 1; size <= height; size++) {
+    for (size = 0; size <= height; size++) {
         for (index = start + 1; index < height; index++) {
             line[index] += line[index + 1];
         }
 
-        for (index = start + size - 1; index >= start; index--) {
+        for (index = start + size; index >= start; index--) {
             if(verbose) printf("%d ", line[index]);
         }
         if(verbose) printf("\n");
@@ -121,12 +122,15 @@ static PyObject* c_print_pascal_triangle_inline_asm(PyObject* self, PyObject* ar
 
 
 static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self, PyObject* args) {
-    int height;
-    if (!PyArg_ParseTuple(args, "i", &height)) return NULL;
+    int height, verbose=0;
+    if (!PyArg_ParseTuple(args, "i|i", &height, &verbose)) return NULL;
 
+    // TODO MEDIUM: Make a better fix to support zero-based Pascal's Triangle
+    height++;
     unsigned int line[height + 1];
+    int index;
 
-    if(height > MAX_HEIGHT_UINT) {
+    if(height > MAX_HEIGHT_UINT + 1) {
         PyErr_Format(PyExc_ValueError, "Unable to build Pascal's Triangle higher than %d", MAX_HEIGHT_UINT);
         return NULL;
     }
@@ -140,7 +144,7 @@ static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self,
          "rep\n\t"
          "stosl\n\t"
          // End of filling
-         "movq $0, (%%rdi)\n\t"
+         "movq $0, (%%rdi)\n\t"  // TODO MEDIUM: There is no need for zero-padding
          "movq $1, %%rcx\n\t"  // line number being processed
          "xorq %%rdx, %%rdx\n\t"
          "movl %0, %%edx\n\t"  // maximum number of lines
@@ -165,6 +169,12 @@ static PyObject* c_print_pascal_triangle_full_asm_implementation(PyObject* self,
          : "g" (height), "g" (line)
          : "eax", "rbx", "rcx", "rdx", "rdi", "r8"
         );
+
+    // Ensure that no compiler optimization is applied to not actually executing the assembly code
+    for (index = height - 1; index >= 0; index--) {
+        if(verbose) printf("%d ", line[index]);
+    }
+    if(verbose) printf("\n");
 
     Py_INCREF(Py_None);
     return Py_None;

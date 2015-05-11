@@ -3,15 +3,6 @@ Install::
     pip install Cython
     pip install -e .
 
-Build pure C solution::
-
-    # With ~ the same options as setup.py does
-    gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle ccpascal_triangle.c
-    # With moderate optimization
-    gcc -O2 -o ccpascal_triangle ccpascal_triangle.c
-    # Set execution bit
-    chmod a+x ./ccpascal_triangle
-
 Run unit tests::
 
     python -m unittest -v pascal_triangle.tests.test_pascal_triangle
@@ -34,6 +25,16 @@ Set constant CPU frequency::
 Run performance tests::
 
     python -m pascal_triangle.tests.performance_test
+
+
+Build pure C solution::
+
+    # With ~ the same options as setup.py does
+    gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle ccpascal_triangle.c
+    # With moderate optimization
+    gcc -O2 -o ccpascal_triangle ccpascal_triangle.c
+    # Set execution bit
+    chmod a+x ./ccpascal_triangle
 
 Run pure C solution::
 

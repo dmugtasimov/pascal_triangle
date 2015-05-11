@@ -10,10 +10,10 @@ ONE_LIST = [1]
 
 
 def cy_print_pascal_triangle_iterators(height, verbose=False):
-    if height == 1:
+    if height == 0:
         # print ONE_LIST
         return ONE_LIST
-    elif height < 1:
+    elif height < 0:
         return []
 
     prev_line = cy_print_pascal_triangle_iterators(height - 1, verbose=verbose)
@@ -29,7 +29,7 @@ def cy_print_pascal_triangle_non_recursive_iterators(height, verbose=False):
     line = ONE_LIST
     if verbose:
         print line
-    for _ in xrange(height - 1):
+    for _ in xrange(height):
         iterator = itertools.chain(ZERO_LIST, line)
         ahead_iterator = itertools.chain(line, ZERO_LIST)
         line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
@@ -38,36 +38,36 @@ def cy_print_pascal_triangle_non_recursive_iterators(height, verbose=False):
 
 
 def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved(height, verbose=False):
-    line = ONE_LIST * height + ZERO_LIST
-    start = height - 1
-    size = 1
+    line = ONE_LIST * (height + 1)
+    start = height
+    size = 0
     while size <= height:
         index = start + 1
         while index < height:
             line[index] += line[index + 1]
             index += 1
-        print_line = line[start:start + size]
+        print_line = line[start:start + size + 1]
         if verbose:
             print print_line
         start -= 1
         size += 1
 
 def cy_print_pascal_triangle_non_recursive_less_c_like(height, verbose=False):
-    line = ONE_LIST * height + ZERO_LIST
-    start = height - 1
-    for size in xrange(1, height + 1):
+    line = ONE_LIST * (height + 1)
+    start = height
+    for size in xrange(height + 1):
         for index in xrange(start + 1, height):
             line[index] += line[index + 1]
-        print_line = line[start:start + size]
+        print_line = line[start:]
         if verbose:
             print print_line
         start -= 1
 
 
 def cy_print_pascal_triangle_c_types(height, verbose=False):
-    cdef c_array.array line = array('I', ONE_LIST * height + ZERO_LIST)
-    cdef int start = height - 1
-    cdef int size = 1
+    cdef c_array.array line = array('I', ONE_LIST * (height + 1))
+    cdef int start = height
+    cdef int size = 0
     cdef int index
     cdef int i
     cdef int finish
@@ -78,7 +78,7 @@ def cy_print_pascal_triangle_c_types(height, verbose=False):
             index += 1
 
         i = start
-        finish = start + size
+        finish = start + size + 1
         while i < finish:
             if verbose:
                 sys.stdout.write(str(line[i]) + " ")
@@ -90,9 +90,9 @@ def cy_print_pascal_triangle_c_types(height, verbose=False):
         size += 1
 
 def cy_print_pascal_triangle_c_types_ulong(height, verbose=False):
-    cdef c_array.array line = array('L', ONE_LIST * height + ZERO_LIST)
-    cdef int start = height - 1
-    cdef int size = 1
+    cdef c_array.array line = array('L', ONE_LIST * (height + 1))
+    cdef int start = height
+    cdef int size = 0
     cdef int index
     cdef int i
     cdef int finish
@@ -103,7 +103,7 @@ def cy_print_pascal_triangle_c_types_ulong(height, verbose=False):
             index += 1
 
         i = start
-        finish = start + size
+        finish = start + size + 1
         while i < finish:
             if verbose:
                 sys.stdout.write(str(line[i]) + " ")
@@ -115,9 +115,9 @@ def cy_print_pascal_triangle_c_types_ulong(height, verbose=False):
         size += 1
 
 def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height, verbose=False):
-    line = ONE_LIST * height + ZERO_LIST
-    start = height - 1
-    size = 1
+    line = ONE_LIST * (height + 1)
+    start = height
+    size = 0
     while size <= height:
         index = start + 1
         while index < height:
@@ -125,7 +125,7 @@ def cy_print_pascal_triangle_non_recursive_even_more_c_like_improved_plus(height
             index += 1
 
         i = start
-        finish = start + size
+        finish = start + size + 1
         while i < finish:
             if verbose:
                 sys.stdout.write(str(line[i]) + " ")
