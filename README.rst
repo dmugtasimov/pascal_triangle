@@ -30,7 +30,6 @@ Run performance tests::
 
     python -m pascal_triangle.tests.performance_test
 
-
 Build pure C solution::
 
     # With ~ the same options as setup.py does
