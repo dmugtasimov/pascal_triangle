@@ -1,6 +1,5 @@
 import unittest
 import inspect
-from collections import deque
 
 from mock import Mock, call
 
