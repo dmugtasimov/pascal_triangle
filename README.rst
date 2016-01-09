@@ -1,6 +1,5 @@
 Install::
 
-    pip install Cython
     pip install -e .
 
 Run unit tests::
