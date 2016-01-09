@@ -3,34 +3,40 @@ import argparse
 
 import terminaltables
 
-from .utils import test_methods
-from pascal_triangle.pascal_triangle import PyPascalTriangle, CyPascalTriangle, CPascalTriangle
 from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
 
-TEST_CLASSES = (PyPascalTriangle, CyPascalTriangle, CPascalTriangle)
 
 SETUP = """
 from pascal_triangle.implementations import {implementation_class_name}
 
 implementation = {implementation_class_name}()
-# Silence _print() for more precise measurement
+# Mock _print() for more precise measurement
 implementation._print = lambda arg: None
 """
 
 STATEMENT = 'implementation.build({height})'
-#BASE_IMPLEMENTATION_METHOD_NAME = 'print_pascal_triangle_testable_fixed_better_naming'
 
+TITLE_TEMPLATE = 'Each {statement} called for {cycles} times'
 FLOAT_FORMAT = '{0:.06f}'
+HEADER = ['#', 'Implementation', 'Duration, secs', 'Fraction of (*) duration', '% faster than (*)']
+COLUMN_JUSTIFICATION = {0: 'left', 1: 'left', 2: 'right', 3: 'right', 4: 'right'}
+
+
+def print_table_data(table_data, title):
+    table_data = [[str(n + 1)] + v for n, v in enumerate(table_data)]
+    table_data.insert(0, HEADER)
+
+    table = terminaltables.SingleTable(table_data)
+    table.title = title
+    table.justify_columns = COLUMN_JUSTIFICATION
+    print table.table
 
 
 def run_performance_test(height, cycles):
     statement = STATEMENT.format(height=height)
-    print 'Running each {statement} for {cycles} times'.format(statement=statement, cycles=cycles)
 
-    table_data = [
-        ['Implementation', 'Duration, secs', 'Fraction of (*) duration',
-         '% faster than (*)']
-    ]
+    table_data = []
+    table_data_2 = []
 
     base_duration = None
     for implementation_class in ALL_IMPLEMENTATIONS:
@@ -43,7 +49,7 @@ def run_performance_test(height, cycles):
 
         try:
             duration = timeit.timeit(statement, setup=setup, number=cycles)
-            if len(table_data) == 1:
+            if not table_data:
                 table_line[-1] += '*'
                 base_duration = duration
 
@@ -62,32 +68,15 @@ def run_performance_test(height, cycles):
         table_line.append(duration)
 
         table_data.append(table_line[:-1])
+        table_data_2.append(table_line)
         # if method_name == BASE_IMPLEMENTATION_METHOD_NAME:
         #     base_duration = duration
         #     line += '*'
 
-    table = terminaltables.SingleTable(table_data)
-    table.justify_columns = {0: 'left', 1: 'right', 2: 'right', 3: 'right'}
-
-    print table.table
-
-    return
-
-    print '-' * 40
-
-    print '---=== SORTED ===---'
-    for duration, line in (_ for _ in sorted(results, key=lambda x: x[0])):
-        if base_duration is not None:
-            if duration is None:
-                factor = 'Exception:            '
-            elif duration < base_duration:
-                factor = '%-6.02f times faster:  ' % (base_duration / float(duration))
-            elif duration == base_duration:
-                factor = 'The same performance: '
-            else:
-                factor = '%-6.02f times slower:  ' % (duration / float(base_duration))
-            line = factor + line
-        print line
+    title = TITLE_TEMPLATE.format(statement=statement, cycles=cycles)
+    print_table_data(table_data, title)
+    print_table_data(list(v[:-1] for v in sorted(table_data_2, key=lambda x: x[-1])),
+                     title + ' (sorted by performance)')
 
 
 if __name__ == '__main__':

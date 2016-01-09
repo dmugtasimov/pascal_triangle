@@ -5,7 +5,7 @@ class PascalTriangleOriginalPlus(PascalTriangleBase):
     """
     Based on :py:class::`PascalTriangleOriginal`.
 
-    Improvements:
+    Difference:
         - Better naming of local variables
         - Fixed corner cases
     """

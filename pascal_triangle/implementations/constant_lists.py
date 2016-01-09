@@ -5,7 +5,7 @@ class PascalTriangleConstantLists(PascalTriangleBase):
     """
     Based on :py:class::`PascalTriangleOriginalPlus`.
 
-    Improvements:
+    Difference:
         - Constant lists replaced with named constants
     """
 
