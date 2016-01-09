@@ -18,8 +18,9 @@ STATEMENT = 'implementation.build({height})'
 
 TITLE_TEMPLATE = 'Each {statement} called for {cycles} times'
 FLOAT_FORMAT = '{0:.06f}'
-HEADER = ['#', 'Implementation', 'Duration, secs', 'Fraction of (*) duration', '% faster than (*)']
-COLUMN_JUSTIFICATION = {0: 'left', 1: 'left', 2: 'right', 3: 'right', 4: 'right'}
+HEADER = ['#', 'Implementation', 'Language', 'Duration, secs', 'Fraction of (*) duration',
+          '% faster than (*)']
+COLUMN_JUSTIFICATION = {0: 'left', 1: 'left', 2: 'left', 3: 'right', 4: 'right', 5: 'right'}
 
 
 def print_table_data(table_data, title):
@@ -43,14 +44,14 @@ def run_performance_test(height, cycles):
 
         implementation_class_name = implementation_class.__name__
 
-        table_line = [implementation_class_name]
+        table_line = [implementation_class_name, implementation_class.language]
         setup = SETUP.format(implementation_class_name=implementation_class_name)
         statement = STATEMENT.format(height=height)
 
         try:
             duration = timeit.timeit(statement, setup=setup, number=cycles)
             if not table_data:
-                table_line[-1] += '*'
+                table_line[0] += '*'
                 base_duration = duration
 
         except Exception as e:

@@ -1,7 +1,7 @@
-from pascal_triangle.base import PascalTriangleBase
+from .base import PyPascalTriangleBase
 
 
-class PascalTriangleOriginal(PascalTriangleBase):
+class PyPascalTriangleOriginal(PyPascalTriangleBase):
     """
     Original solution presented on interview.
     """

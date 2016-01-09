@@ -1,7 +1,7 @@
-from pascal_triangle.base import PascalTriangleBase
+from .base import PyPascalTriangleBase
 
 
-class PascalTriangleNonRecursiveCLike(PascalTriangleBase):
+class PyPascalTriangleNonRecursiveCLike(PyPascalTriangleBase):
     """
     Based on :py:class::`PascalTriangleNonRecursive`.
 

@@ -1,10 +1,10 @@
 import itertools
 import array
 
-from pascal_triangle.base import PascalTriangleBase
+from .base import PyPascalTriangleBase
 
 
-class PascalTriangleNonRecursiveArray(PascalTriangleBase):
+class PyPascalTriangleNonRecursiveArray(PyPascalTriangleBase):
     """
     Based on :py:class::`PascalTriangleNonRecursiveLessCLike`.
 

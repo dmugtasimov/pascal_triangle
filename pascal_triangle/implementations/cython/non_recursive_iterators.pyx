@@ -1,14 +1,14 @@
 import itertools
 
-from pascal_triangle.base import PascalTriangleBase
+from .base import CyPascalTriangleBase
 
 
-class PascalTriangleNonRecursiveIterators(PascalTriangleBase):
+class CyPascalTriangleNonRecursiveIterators(CyPascalTriangleBase):
     """
-    Based on :py:class::`PascalTriangleNonRecursive`.
+    Based on :py:class::`PyPascalTriangleNonRecursiveIterators`.
 
     Difference:
-        - iterators are used instead of lists
+        - Compiled with Cython
     """
 
     def build(self, height):

@@ -1,9 +1,9 @@
 import itertools
 
-from pascal_triangle.base import PascalTriangleBase
+from .base import PyPascalTriangleBase
 
 
-class PascalTriangleIterators(PascalTriangleBase):
+class PyPascalTriangleIterators(PyPascalTriangleBase):
     """
     Based on :py:class::`PascalTriangleConstantLists`.
 

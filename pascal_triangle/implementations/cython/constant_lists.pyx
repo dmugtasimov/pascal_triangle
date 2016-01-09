@@ -1,12 +1,12 @@
-from pascal_triangle.base import PascalTriangleBase
+from .base import CyPascalTriangleBase
 
 
-class PascalTriangleConstantLists(PascalTriangleBase):
+class CyPascalTriangleConstantLists(CyPascalTriangleBase):
     """
-    Based on :py:class::`PascalTriangleOriginalPlus`.
+    Based on :py:class::`PascalTriangleConstantLists`.
 
     Difference:
-        - Constant lists replaced with named constants
+        - Compiled with Cython
     """
 
     def build(self, height):

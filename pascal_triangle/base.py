@@ -16,6 +16,8 @@ def print_pascal_triangle_real_original(n):
 
 class PascalTriangleBase(object):
 
+    language = NotImplemented
+
     EMPTY_LIST = []
     ZERO_LIST = [0]
     ONE_LIST = [1]

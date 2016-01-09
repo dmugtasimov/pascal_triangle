@@ -4,7 +4,18 @@ from distutils.core import setup, Extension
 
 def get_ext_modules():
     from Cython.Build import cythonize
-    ext_modules = cythonize('./pascal_triangle/cypascal_triangle.pyx')
+    ext_modules = cythonize((
+        './pascal_triangle/cypascal_triangle.pyx',
+        './pascal_triangle/implementations/cython/iterators.pyx',
+        './pascal_triangle/implementations/cython/constant_lists.pyx',
+        './pascal_triangle/implementations/cython/non_recursive.pyx',
+        './pascal_triangle/implementations/cython/non_recursive_iterators.pyx',
+        './pascal_triangle/implementations/cython/non_recursive_c_like_improved.pyx',
+        './pascal_triangle/implementations/cython/non_recursive_c_like_more_improved.pyx',
+        './pascal_triangle/implementations/cython/non_recursive_less_c_like.pyx',
+        './pascal_triangle/implementations/cython/c_types.pyx',
+        './pascal_triangle/implementations/cython/c_types_ulong.pyx',
+    ))
     ext_modules.append(Extension('pascal_triangle.cpascal_triangle',
                                  ['./pascal_triangle/cpascal_triangle.c']))
 

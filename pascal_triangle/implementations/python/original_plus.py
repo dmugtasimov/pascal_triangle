@@ -1,7 +1,7 @@
-from pascal_triangle.base import PascalTriangleBase
+from .base import PyPascalTriangleBase
 
 
-class PascalTriangleOriginalPlus(PascalTriangleBase):
+class PyPascalTriangleOriginalPlus(PyPascalTriangleBase):
     """
     Based on :py:class::`PascalTriangleOriginal`.
 

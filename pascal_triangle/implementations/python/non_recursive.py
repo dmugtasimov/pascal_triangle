@@ -1,7 +1,7 @@
-from pascal_triangle.base import PascalTriangleBase
+from .base import PyPascalTriangleBase
 
 
-class PascalTriangleNonRecursive(PascalTriangleBase):
+class PyPascalTriangleNonRecursive(PyPascalTriangleBase):
     """
     A non recursive implementation of Pascal Triangle printing algorithm.
     """
