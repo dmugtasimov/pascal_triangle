@@ -29,7 +29,7 @@ void c_print_pascal_triangle(int height, int verbose) {
         }
 
         for (index = start + size; index >= start; index--) {
-            if(verbose) printf("%d ", line[index]);
+            if(verbose) printf("%u ", line[index]);
         }
         if(verbose) printf("\n");
 
@@ -112,7 +112,7 @@ void c_print_pascal_triangle_full_asm_implementation(int height, int verbose) {
 
     // Ensure that no compiler optimization is applied to not actually executing the assembly code
     for (index = height - 1; index >= 0; index--) {
-        if(verbose) printf("%d ", line[index]);
+        if(verbose) printf("%u ", line[index]);
     }
     if(verbose) printf("\n");
 }

@@ -41,7 +41,7 @@ static PyObject* c_pascal_triangle_partial_asm(PyObject* self, PyObject* args) {
         }
 
         for (index = start + size; index >= start; index--) {
-            if(verbose) printf("%d ", line[index]);
+            if(verbose) printf("%u ", line[index]);
         }
         if(verbose) printf("\n");
 

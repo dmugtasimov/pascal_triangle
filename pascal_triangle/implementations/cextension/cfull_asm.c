@@ -58,7 +58,7 @@ static PyObject* c_pascal_triangle_full_asm(PyObject* self, PyObject* args) {
     // Some code that used results to ensure that optimization is not applied and assembly code is actually executing
     if(verbose) {
         for (index = height - 1; index >= 0; index--) {
-            if(verbose) printf("%d ", line[index]);
+            if(verbose) printf("%u ", line[index]);
         }
         if(verbose) printf("\n");
     }
