@@ -16,8 +16,17 @@ def get_ext_modules():
         './pascal_triangle/implementations/cython/c_types.pyx',
         './pascal_triangle/implementations/cython/c_types_ulong.pyx',
     ))
-    ext_modules.append(Extension('pascal_triangle.cpascal_triangle',
-                                 ['./pascal_triangle/cpascal_triangle.c']))
+    cextensions = (
+        Extension('pascal_triangle.implementations.cextension.cinitial',
+                  ['./pascal_triangle/implementations/cextension/cinitial.c']),
+        Extension('pascal_triangle.implementations.cextension.culong',
+                  ['./pascal_triangle/implementations/cextension/culong.c']),
+        Extension('pascal_triangle.implementations.cextension.cpartial_asm',
+                  ['./pascal_triangle/implementations/cextension/cpartial_asm.c']),
+        Extension('pascal_triangle.implementations.cextension.cfull_asm',
+                  ['./pascal_triangle/implementations/cextension/cfull_asm.c']),
+    )
+    ext_modules.extend(cextensions)
 
     for ext_module in ext_modules:
         yield ext_module
