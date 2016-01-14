@@ -14,7 +14,7 @@ implementation = {implementation_class_name}()
 implementation._print = lambda arg: None
 """
 
-STATEMENT = 'implementation.build({height})'
+CODE_TEMPLATE = 'implementation.build({height})'
 
 TITLE_TEMPLATE = 'Each {statement} called for {cycles} times'
 FLOAT_FORMAT = '{0:.06f}'
@@ -34,7 +34,7 @@ def print_table_data(table_data, title):
 
 
 def run_performance_test(height, cycles):
-    statement = STATEMENT.format(height=height)
+    statement = CODE_TEMPLATE.format(height=height)
 
     table_data = []
     table_data_2 = []
@@ -46,7 +46,7 @@ def run_performance_test(height, cycles):
 
         table_line = [implementation_class_name, implementation_class.language]
         setup = SETUP.format(implementation_class_name=implementation_class_name)
-        statement = STATEMENT.format(height=height)
+        statement = CODE_TEMPLATE.format(height=height)
 
         try:
             duration = timeit.timeit(statement, setup=setup, number=cycles)
@@ -70,9 +70,6 @@ def run_performance_test(height, cycles):
 
         table_data.append(table_line[:-1])
         table_data_2.append(table_line)
-        # if method_name == BASE_IMPLEMENTATION_METHOD_NAME:
-        #     base_duration = duration
-        #     line += '*'
 
     title = TITLE_TEMPLATE.format(statement=statement, cycles=cycles)
     print_table_data(table_data, title)

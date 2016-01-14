@@ -1,41 +1,54 @@
 import types
 import time
 
-from .utils import test_methods
+import terminaltables
 
-from pascal_triangle.pascal_triangle import CPascalTriangle
+from pascal_triangle.implementations.cextension.base import CPascalTriangleBase
+from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
+
 
 MAX_HEIGHT = 4096
 MAX_TIME_SECONDS = 1
+
+CODE_TEMPLATE = 'implementation.build({height})'
 
 
 def _print(self, arg):
     self._print_last_call = list(arg)
 
 
+def get_code(class_name, height):
+    return CODE_TEMPLATE.format(class_name=class_name, height=height)
+
+
 def run_limitation_test():
     powers_of_2 = tuple(2 ** p for p in xrange(MAX_HEIGHT + 1))
 
-    for test_class, method_name in test_methods():
+    table_data = [
+        ['#', 'Implementation', 'Language', 'Height limit', 'Duration, s', 'Reason', 'Info']
+    ]
+    for test_class in ALL_IMPLEMENTATIONS:
         class_name = test_class.__name__
-        if issubclass(test_class, CPascalTriangle):
-            printer = test_class(return_list=True)
+        if issubclass(test_class, CPascalTriangleBase):
+            pascal_triangle = test_class(return_list=True)
         else:
-            printer = test_class()
-        printer._print_last_call = None
-        printer._print = types.MethodType(_print, printer)
-        method = getattr(printer, method_name)
+            pascal_triangle = test_class()
+        pascal_triangle._print_last_call = None
+        pascal_triangle._print = types.MethodType(_print, pascal_triangle)
 
         lower = 0
         upper = 1
-        last_error = None
-        print '%s.%s(...):' % (class_name, method_name)
+        height = lower
+        duration = None
+        last_error = {}
+        print 'Estimating implementation: {}...'.format(class_name)
         while lower < upper <= MAX_HEIGHT:
             start = time.time()
             try:
-                result = method(upper)
+                result = pascal_triangle.build(upper)
             except Exception as e:
-                last_error = 'EXCEPTION: %s.%s(%s): %r' % (class_name, method_name, upper, e)
+                last_error = {'limit': upper,
+                              'reason': 'exception', 'info': repr(e)}
                 upper = (lower + upper) / 2
                 continue
             finish = time.time()
@@ -45,21 +58,30 @@ def run_limitation_test():
                 result = list(result)
                 total_sum = sum(result)
                 if total_sum != powers_of_2[upper]:
-                    last_error = 'OVERFLOW:  %s.%s(%s)' % (class_name, method_name, upper)
+                    last_error = {'limit': height,
+                                  'reason': 'overflow or error'}
                     upper = (lower + upper) / 2
                     continue
 
             if duration > MAX_TIME_SECONDS:
-                print 'TIMEOUT:   %s.%s(%s): %.06f seconds' % (class_name, method_name, upper, duration)
-                break
+                last_error = {'limit': height,
+                              'reason': 'timeout',
+                              'info': '{timeout:.06f} s, (duration: {duration:.06f} s)'.format(
+                                  timeout=MAX_TIME_SECONDS, duration=duration)}
+                upper = (lower + upper) / 2
+                continue
             lower = upper
+            height = lower
             upper *= 2
         else:
-            if last_error:
-                print last_error
-            print 'DONE:      %s.%s(%s): %.06f seconds' % (class_name, method_name, upper, duration)
+            table_data.append([
+                str(len(table_data)), class_name, test_class.language,
+                str(height), '{0:.06f}'.format(duration) if duration is not None else '-',
+                last_error.get('reason', ''), last_error.get('info', '')
+            ])
 
-        print
+    table = terminaltables.SingleTable(table_data)
+    print table.table
 
 
 if __name__ == '__main__':
