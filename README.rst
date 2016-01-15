@@ -1,44 +1,73 @@
-Install::
+Installation
+------------
 
+#. Install prerequisites::
+
+    sudo apt-get install python-pip
+    pip install --user virtualenvwrapper
+
+    cat << EOF >> ~/.bashrc
+    export WORKON_HOME=$HOME/.virtualenvs
+    source ~/.local/bin/virtualenvwrapper.sh
+    EOF
+
+    source ~/.bashrc
+    mkvirtualenv pascal_triangle
+    pip install --upgrade pip
+    # to activate later:
+    workon pascal_triangle
+
+#. Install::
+
+    git clone https://github.com/dmugtasimov/pascal_triangle.git
+    cd pascal_triangle
     pip install -e .
 
-Run unit tests::
+#. Build pure C solution::
+
+    gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle_normal ccpascal_triangle.c
+    chmod a+x ./ccpascal_triangle_normal
+
+    gcc -O2 -o ccpascal_triangle_O2 ccpascal_triangle.c
+    chmod a+x ./ccpascal_triangle_O2
+
+    gcc -O3 -o ccpascal_triangle_O3 ccpascal_triangle.c
+    chmod a+x ./ccpascal_triangle_O3
+
+    gcc -Ofast -o ccpascal_triangle_Ofast ccpascal_triangle.c
+    chmod a+x ./ccpascal_triangle_Ofast
+
+Running tests
+-------------
+
+#. Run unit tests::
 
     python -m unittest -v pascal_triangle.tests.test_pascal_triangle
 
-Run functional manual tests (check expected results manually)::
-
-    python -m pascal_triangle.tests.functional_manual_test
-
-Run limitation tests::
+#. Run limitation tests::
 
     python -m pascal_triangle.tests.limitation_test
 
-Set constant CPU frequency::
+#. Set constant CPU frequency::
 
     sudo cpufreq-set -c 0 -g performance
     sudo cpufreq-set -c 1 -g performance
     ...
     sudo cpufreq-set -c n -g performance
 
-Ensure that CPU frequency is set::
+#. Ensure that CPU frequency is set::
 
     cpufreq-info | grep 'current CPU frequency is'
 
-Run performance tests::
+#. Run performance tests::
 
     python -m pascal_triangle.tests.performance_test
 
-Build pure C solution::
 
-    # With ~ the same options as setup.py does
-    gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -D_FORTIFY_SOURCE=2 -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -o ccpascal_triangle ccpascal_triangle.c
-    # With moderate optimization
-    gcc -O2 -o ccpascal_triangle ccpascal_triangle.c
-    # Set execution bit
-    chmod a+x ./ccpascal_triangle
+#. Run pure C implementations::
 
-Run pure C solution::
-
-    ./ccpascal_triangle
+    ./ccpascal_triangle_normal
+    ./ccpascal_triangle_O2
+    ./ccpascal_triangle_O3
+    ./ccpascal_triangle_Ofast
 

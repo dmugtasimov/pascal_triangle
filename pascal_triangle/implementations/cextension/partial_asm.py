@@ -13,4 +13,4 @@ class CPascalTrianglePartialAsm(CPascalTriangleBase):
     language = 'C/Assembler'
 
     def build(self, height):
-        c_pascal_triangle_partial_asm(height)
+        return c_pascal_triangle_partial_asm(height, 0, self.return_list)

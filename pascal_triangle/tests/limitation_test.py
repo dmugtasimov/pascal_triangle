@@ -1,9 +1,7 @@
-import types
 import time
 
 import terminaltables
 
-from pascal_triangle.implementations.cextension.base import CPascalTriangleBase
 from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
 
 
@@ -11,10 +9,6 @@ MAX_HEIGHT = 4096
 MAX_TIME_SECONDS = 1
 
 CODE_TEMPLATE = 'implementation.build({height})'
-
-
-def _print(self, arg):
-    self._print_last_call = list(arg)
 
 
 def get_code(class_name, height):
@@ -29,12 +23,6 @@ def run_limitation_test():
     ]
     for test_class in ALL_IMPLEMENTATIONS:
         class_name = test_class.__name__
-        if issubclass(test_class, CPascalTriangleBase):
-            pascal_triangle = test_class(return_list=True)
-        else:
-            pascal_triangle = test_class()
-        pascal_triangle._print_last_call = None
-        pascal_triangle._print = types.MethodType(_print, pascal_triangle)
 
         lower = 0
         upper = 1
@@ -45,7 +33,7 @@ def run_limitation_test():
         while lower < upper <= MAX_HEIGHT:
             start = time.time()
             try:
-                result = pascal_triangle.build(upper)
+                result = test_class(return_list=True).build(upper)
             except Exception as e:
                 last_error = {'limit': upper,
                               'reason': 'exception', 'info': repr(e)}

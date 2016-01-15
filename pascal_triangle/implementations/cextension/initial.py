@@ -11,4 +11,4 @@ class CPascalTriangleInitial(CPascalTriangleBase):
     """
 
     def build(self, height):
-        c_pascal_triangle_initial(height)
+        return c_pascal_triangle_initial(height, 0, self.return_list)

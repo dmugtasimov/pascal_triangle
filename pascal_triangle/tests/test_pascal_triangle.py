@@ -1,48 +1,29 @@
 import unittest
-import inspect
 
-from mock import Mock, call
-
-from pascal_triangle.pascal_triangle import PyPascalTriangle
+from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
 
 
-_TEST_CLASS = PyPascalTriangle
+def test_method_template(implementation_class):
 
-
-def test_method_template(method_name):
-
-    TRI_HEIGH = 4
-    CALLS_5 = [call([1]), call([1, 1]), call([1, 2, 1]), call([1, 3, 3, 1]),
-               call([1, 4, 6, 4, 1])]
+    TRI_HEIGHT = 5
+    TRI_HEIGHT_SUM = 2 ** TRI_HEIGHT
 
     def test_method(self):
-        method = getattr(self.pascal_triangle_testable, method_name)
-        method(TRI_HEIGH)
-        self.pascal_triangle_testable._test_print.assert_has_calls(CALLS_5)
+        result = implementation_class(return_list=True).build(TRI_HEIGHT)
+        self.assertEquals(sum(result), TRI_HEIGHT_SUM)
 
     return test_method
 
 
-class _TestPascalTriagnaleMeta(type):
+class _TestPascalTriangleMeta(type):
 
-    def __new__(cls, name, bases, attrs):
-        method_names = (name for name, method in
-                        inspect.getmembers(_TEST_CLASS, predicate=inspect.ismethod)
-                        if not name.startswith('_'))
-        for method_name in method_names:
-            attrs['test_' + method_name] = test_method_template(method_name)
+    def __new__(mcs, name, bases, attrs):
+        for implementation in ALL_IMPLEMENTATIONS:
+            attrs['test_' + implementation.__name__] = test_method_template(implementation)
 
-        return super(_TestPascalTriagnaleMeta, cls).__new__(cls, name, bases, attrs)
+        return super(_TestPascalTriangleMeta, mcs).__new__(mcs, name, bases, attrs)
 
 
-class TestPascalTriagnale(unittest.TestCase):
+class TestPascalTriangle(unittest.TestCase):
 
-    __metaclass__ = _TestPascalTriagnaleMeta
-
-    @classmethod
-    def setUpClass(cls):
-        cls.pascal_triangle_testable = _TEST_CLASS()
-
-    def setUp(self):
-        self.pascal_triangle_testable._test_print = Mock()
-
+    __metaclass__ = _TestPascalTriangleMeta

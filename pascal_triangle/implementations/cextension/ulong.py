@@ -11,4 +11,4 @@ class CPascalTriangleULong(CPascalTriangleBase):
     """
 
     def build(self, height):
-        c_pascal_triangle_ulong(height)
+        return c_pascal_triangle_ulong(height, 0, self.return_list)

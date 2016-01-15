@@ -26,6 +26,10 @@ class PascalTriangleBase(object):
     ZERO_TUPLE = (0,)
     ONE_TUPLE = (1,)
 
+    def __init__(self, verbose=False, return_list=False):
+        self.verbose = verbose
+        self.return_list = return_list
+
     def _test_print(self, arg):
         print arg
 
@@ -34,6 +38,9 @@ class PascalTriangleBase(object):
         Print Pascal's Triangle line
         :param arg: triangle line
         """
+        if not self.verbose:
+            return
+
         if not isinstance(arg, list):
             arg = list(arg)
 
