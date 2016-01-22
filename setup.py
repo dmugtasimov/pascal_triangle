@@ -65,5 +65,8 @@ setup(
     packages=setuptools.find_packages(),
     setup_requires=('Cython==0.23.4',),
     install_requires=('Cython==0.23.4', 'terminaltables==2.1.0', 'mock==1.3.0',),
+    extras_require={
+        'doc': ['Sphinx==1.3.4', 'sphinxcontrib.programoutput==0.8'],
+    },
     ext_modules=LazyList(get_ext_modules()),
 )
