@@ -82,3 +82,21 @@ Here is the result of limitation test::
     $ python -m pascal_triangle.tests.limitation_test
 
 .. include:: pascal_triangle_limitation_test.rst
+
+As seen from the table there are several thresholds of triangle height limitations:
+
+* 34 is a height limit for all algorithms that use unsigned 32-bit integers for calculation.
+* 67 is a height limit for all algorithms that use unsigned 64-bit integers for calculation.
+* Just below 1000 is a height limit for all recursive algorithms in Python since the default recursion limit in python is 1000 frames.
+* The other implementations are virtually limited by the time required for calculation once it exceeds 1 second.
+
+From practical point of view limit of 34 and 67 height makes corresponding algorithms
+useless since lines Pascal's Triangle of 67 height can be precomputed and stored in
+memory with any other even slow algorithms. It would take only (height + 2) * (height + 1) / 2 =
+(67 + 2) * (67 + 1) / 2 * 8 = 18768 bytes.
+
+So all optimizations that were made for original implementation have only scientific interest.
+
+Another conclusion from limitation test is that we can only compare implementations for particular
+heights. Performance of all implementations can be benchmarked for 34 height and there should be
+a benchmark for 67 height group, 1000 height group and over 1000 height group.
