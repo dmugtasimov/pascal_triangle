@@ -3,7 +3,7 @@ from .base import PyPascalTriangleBase
 
 class PyPascalTriangleOriginal(PyPascalTriangleBase):
     """
-    Original solution presented on interview.
+    Modified original solution presented on interview.
     """
 
     def build(self, height):

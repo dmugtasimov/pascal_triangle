@@ -206,6 +206,7 @@ html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'PascalsTriangledoc'
+html_sidebars = {'**': []}
 
 # -- Options for LaTeX output ---------------------------------------------
 
