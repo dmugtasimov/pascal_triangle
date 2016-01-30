@@ -9,6 +9,8 @@ Pascal's Triangle
 .. toctree::
    :hidden:
 
+   pascal_triangle_limitation_test
+
 Summary
 -------
 
@@ -67,3 +69,16 @@ For the purpose of this article I made small changes to my original implementati
 (made lines zero-based and converted the function into a class method):
 
 .. literalinclude:: ../implementations/python/original.py
+
+Limitations
+```````````
+
+When I started implementation of the Pascal's Triangle building algorithm it turned out that
+different implementations have their own limitations. Therefore I should describe the limitations
+first.
+
+Here is the result of limitation test::
+
+    $ python -m pascal_triangle.tests.limitation_test
+
+.. include:: pascal_triangle_limitation_test.rst

@@ -29,7 +29,6 @@ def run_limitation_test():
         height = lower
         duration = None
         last_error = {}
-        print 'Estimating implementation: {}...'.format(class_name)
         while lower < upper <= MAX_HEIGHT:
             start = time.time()
             try:
@@ -68,7 +67,8 @@ def run_limitation_test():
                 last_error.get('reason', ''), last_error.get('info', '')
             ])
 
-    table = terminaltables.SingleTable(table_data)
+    table = terminaltables.AsciiTable(table_data)
+    table.inner_row_border = True
     print table.table
 
 
