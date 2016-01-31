@@ -15,6 +15,8 @@ class CyPascalTriangleNonRecursiveCTypes(CyPascalTriangleBase):
         - C type are used instead of Python types
     """
 
+    max_height = 34
+
     def build(self, height, verbose=False):
         cdef c_array.array line = array('I', self.ONE_LIST * (height + 1))
         cdef int start = height

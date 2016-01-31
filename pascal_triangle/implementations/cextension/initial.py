@@ -10,5 +10,7 @@ class CPascalTriangleInitial(CPascalTriangleBase):
         - C implementation
     """
 
+    max_height = 34
+
     def build(self, height):
         return c_pascal_triangle_initial(height, 0, self.return_list)

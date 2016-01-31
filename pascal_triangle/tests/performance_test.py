@@ -1,9 +1,8 @@
 import timeit
 import argparse
 
-import terminaltables
-
 from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
+from pascal_triangle.utils import RSTTable
 
 
 SETUP = """
@@ -27,20 +26,23 @@ def print_table_data(table_data, title):
     table_data = [[str(n + 1)] + v for n, v in enumerate(table_data)]
     table_data.insert(0, HEADER)
 
-    table = terminaltables.SingleTable(table_data)
-    table.title = title
+    table = RSTTable(table_data)
     table.justify_columns = COLUMN_JUSTIFICATION
+    print title
+    print ''
     print table.table
 
 
-def run_performance_test(height, cycles):
+def run_performance_test(height, cycles, sorted_by_performance=True):
     statement = CODE_TEMPLATE.format(height=height)
 
     table_data = []
-    table_data_2 = []
 
     base_duration = None
     for implementation_class in ALL_IMPLEMENTATIONS:
+
+        if implementation_class.max_height is not None and implementation_class.max_height < height:
+            continue
 
         implementation_class_name = implementation_class.__name__
 
@@ -50,7 +52,7 @@ def run_performance_test(height, cycles):
 
         try:
             duration = timeit.timeit(statement, setup=setup, number=cycles)
-            if not table_data:
+            if implementation_class.original:
                 table_line[0] += '*'
                 base_duration = duration
 
@@ -68,22 +70,27 @@ def run_performance_test(height, cycles):
                           if base_duration is not None else '-')
         table_line.append(duration)
 
-        table_data.append(table_line[:-1])
-        table_data_2.append(table_line)
+        table_data.append(table_line)
 
     title = TITLE_TEMPLATE.format(statement=statement, cycles=cycles)
-    print_table_data(table_data, title)
-    print_table_data(list(v[:-1] for v in sorted(table_data_2, key=lambda x: x[-1])),
-                     title + ' (sorted by performance)')
+
+    if sorted_by_performance:
+        title += ' (ordered by performance)'
+        table_data = sorted(table_data, key=lambda x: x[-1])
+
+    print_table_data(list(v[:-1] for v in table_data), title)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Run performance test of building Pascal\'s Triangle')
+        description='Run performance test of building Pascal\'s Triangle',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-s', '--height', default=34, type=int,
                         help='height of Pascal\'s Triangle')
     parser.add_argument('-c', '--cycles', default=1000, type=int,
-                        help='number of cycles to run for each implementation (default: 1000)')
+                        help='number of cycles to run for each implementation')
+    parser.add_argument('--chronological-order', action='store_true', default=False)
 
     args = parser.parse_args()
-    run_performance_test(args.height, args.cycles)
+    run_performance_test(args.height, args.cycles,
+                         sorted_by_performance=not args.chronological_order)

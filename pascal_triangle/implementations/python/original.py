@@ -6,6 +6,9 @@ class PyPascalTriangleOriginal(PyPascalTriangleBase):
     Modified original solution presented on interview.
     """
 
+    original = True
+    max_height = 900
+
     def build(self, height):
         if height <= 0:
             self._print([1])

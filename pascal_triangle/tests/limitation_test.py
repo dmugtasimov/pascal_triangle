@@ -3,6 +3,7 @@ import time
 import terminaltables
 
 from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
+from pascal_triangle.utils import RSTTable
 
 
 MAX_HEIGHT = 4096
@@ -67,9 +68,7 @@ def run_limitation_test():
                 last_error.get('reason', ''), last_error.get('info', '')
             ])
 
-    table = terminaltables.AsciiTable(table_data)
-    table.inner_row_border = True
-    print table.table
+    print RSTTable(table_data).table
 
 
 if __name__ == '__main__':

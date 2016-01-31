@@ -52,7 +52,11 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 runtests:
-	python -m pascal_triangle.tests.limitation_test > pascal_triangle_limitation_test.rst
+	python -m pascal_triangle.tests.limitation_test > limitation_test.rst
+	python -m pascal_triangle.tests.performance_test --height 34 > performance_test_34.rst
+	python -m pascal_triangle.tests.performance_test --height 67 > performance_test_67.rst
+	python -m pascal_triangle.tests.performance_test --cycles 5 --height 900 > performance_test_900.rst
+	python -m pascal_triangle.tests.performance_test --cycles 5 --height 3000 > performance_test_3000.rst
 
 .PHONY: html
 html: runtests

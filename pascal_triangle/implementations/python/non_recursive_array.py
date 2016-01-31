@@ -12,6 +12,8 @@ class PyPascalTriangleNonRecursiveArray(PyPascalTriangleBase):
         - array object are used instead of list
     """
 
+    max_height = 34
+
     def build(self, height):
         line = array.array('I', itertools.repeat(1, height + 1))
         start = height

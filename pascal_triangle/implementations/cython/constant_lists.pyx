@@ -9,6 +9,8 @@ class CyPascalTriangleConstantLists(CyPascalTriangleBase):
         - Compiled with Cython
     """
 
+    max_height = 900
+
     def build(self, height):
         if height == 0:
             self._print(self.ONE_LIST)

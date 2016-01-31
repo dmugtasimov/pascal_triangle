@@ -63,7 +63,6 @@ Running tests
 
     python -m pascal_triangle.tests.performance_test
 
-
 #. Run pure C implementations::
 
     ./ccpascal_triangle_normal

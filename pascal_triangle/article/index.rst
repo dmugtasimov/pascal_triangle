@@ -9,7 +9,11 @@ Pascal's Triangle
 .. toctree::
    :hidden:
 
-   pascal_triangle_limitation_test
+   limitation_test
+   performance_test_34
+   performance_test_67
+   performance_test_900
+   performance_test_3000
 
 Summary
 -------
@@ -81,7 +85,7 @@ Here is the result of limitation test::
 
     $ python -m pascal_triangle.tests.limitation_test
 
-.. include:: pascal_triangle_limitation_test.rst
+.. include:: limitation_test.rst
 
 As seen from the table there are several thresholds of triangle height limitations:
 
@@ -100,3 +104,11 @@ So all optimizations that were made for original implementation have only scient
 Another conclusion from limitation test is that we can only compare implementations for particular
 heights. Performance of all implementations can be benchmarked for 34 height and there should be
 a benchmark for 67 height group, 1000 height group and over 1000 height group.
+
+Performance
+```````````
+
+.. include:: performance_test_34.rst
+.. include:: performance_test_67.rst
+.. include:: performance_test_900.rst
+.. include:: performance_test_3000.rst

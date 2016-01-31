@@ -14,6 +14,8 @@ class CyPascalTriangleNonRecursiveCTypesULong(CyPascalTriangleBase):
         - 64-bit integers are used to store values instead of 32-bit integers
     """
 
+    max_height = 67
+
     def build(self, height, verbose=False):
         cdef c_array.array line = array('L', self.ONE_LIST * (height + 1))
         cdef int start = height

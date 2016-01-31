@@ -11,6 +11,7 @@ class CPascalTriangleFullAsm(CPascalTriangleBase):
     """
 
     language = 'C/Assembler'
+    max_height = 34
 
     def build(self, height):
         return c_pascal_triangle_full_asm(height, 0, self.return_list)

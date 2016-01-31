@@ -10,5 +10,7 @@ class CPascalTriangleULong(CPascalTriangleBase):
         - Unsigned long is used instead of unsigned int
     """
 
+    max_height = 67
+
     def build(self, height):
         return c_pascal_triangle_ulong(height, 0, self.return_list)
