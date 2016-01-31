@@ -18,6 +18,7 @@ Pascal's Triangle
    pypy_performance_test_67
    pypy_performance_test_900
    pypy_performance_test_3000
+   cpython_vs_cython_vs_pypy
 
 Summary
 -------
@@ -36,7 +37,7 @@ Programming languages:
 
 * Python
 * Cython
-* ?PyPy
+* PyPy
 * C
 * Assembler
 
@@ -45,6 +46,11 @@ Optimization techniques used:
 * Microoptimizations
 * Replace recursive algorithm with non-recursive
 * Replace Python with other programming languages
+
+Conclusions
+-----------
+
+*
 
 Full story
 ----------
@@ -127,3 +133,8 @@ PyPy
 .. include:: pypy_performance_test_67.rst
 .. include:: pypy_performance_test_900.rst
 .. include:: pypy_performance_test_3000.rst
+
+CPython vs Cython vs PyPy
+`````````````````````````
+
+.. include:: cpython_vs_cython_vs_pypy.rst

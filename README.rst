@@ -84,9 +84,23 @@ Running tests
     cpufreq-info | grep 'decide'
     cpufreq-info | grep 'current CPU frequency is'
 
-#. Run performance tests::
+#. Run performance tests for CPython::
 
     python -m pascal_triangle.tests.performance_test
+    python -m pascal_triangle.tests.performance_test --json > cpython_performance_test.json
+
+#. Run performance tests for PyPy::
+
+    deactivate
+    workon pascal_triangle_pypy
+    python -m pascal_triangle.tests.performance_test
+    python -m pascal_triangle.tests.performance_test --json > pypy_performance_test.json
+    deactivate
+    workon pascal_triangle
+
+#. Compare::
+
+    python -m pascal_triangle.tests.compare cpython_performance_test.json pypy_performance_test.json
 
 #. Run pure C implementations::
 
