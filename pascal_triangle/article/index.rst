@@ -10,10 +10,14 @@ Pascal's Triangle
    :hidden:
 
    limitation_test
-   performance_test_34
-   performance_test_67
-   performance_test_900
-   performance_test_3000
+   cpython_performance_test_34
+   cpython_performance_test_67
+   cpython_performance_test_900
+   cpython_performance_test_3000
+   pypy_performance_test_34
+   pypy_performance_test_67
+   pypy_performance_test_900
+   pypy_performance_test_3000
 
 Summary
 -------
@@ -106,9 +110,20 @@ heights. Performance of all implementations can be benchmarked for 34 height and
 a benchmark for 67 height group, 1000 height group and over 1000 height group.
 
 Performance
-```````````
+~~~~~~~~~~~
 
-.. include:: performance_test_34.rst
-.. include:: performance_test_67.rst
-.. include:: performance_test_900.rst
-.. include:: performance_test_3000.rst
+CPython
+```````
+
+.. include:: cpython_performance_test_34.rst
+.. include:: cpython_performance_test_67.rst
+.. include:: cpython_performance_test_900.rst
+.. include:: cpython_performance_test_3000.rst
+
+PyPy
+````
+
+.. include:: pypy_performance_test_34.rst
+.. include:: pypy_performance_test_67.rst
+.. include:: pypy_performance_test_900.rst
+.. include:: pypy_performance_test_3000.rst

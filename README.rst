@@ -14,12 +14,35 @@ Installation
     source ~/.bashrc
     mkvirtualenv pascal_triangle
     pip install --upgrade pip
+
     # to activate later:
     workon pascal_triangle
 
 #. Install::
 
     git clone https://github.com/dmugtasimov/pascal_triangle.git
+    cd pascal_triangle
+    pip install -e .[cython,doc]
+
+#. Install PyPy::
+
+    wget https://bitbucket.org/pypy/pypy/downloads/pypy-4.0.1-linux64.tar.bz2
+    tar -xf pypy-4.0.1-linux64.tar.bz2
+    sudo mv pypy-4.0.1-linux64 /opt
+    rm pypy-4.0.1-linux64.tar.bz2
+    ln -s /opt/pypy-4.0.1-linux64/bin/pypy /usr/local/bin/pypy
+
+#. Create virtualenv for PyPy::
+
+    deactivate
+    mkvirtualenv pascal_triangle_pypy -p /usr/local/bin/pypy
+    pip install --upgrade pip
+
+    # to activate later:
+    workon pascal_triangle_pypy
+
+#. Install into PyPy virtualenv::
+
     cd pascal_triangle
     pip install -e .
 
@@ -83,6 +106,6 @@ For article generation run::
 
     workon pascal_triangle
     cd ./pascal_triangle/article
-    make html
+    source ./runtests.sh && make html
 
     firefox _build/html/index.html &

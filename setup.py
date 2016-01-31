@@ -1,21 +1,12 @@
+import os
 import setuptools
+import platform
+
 from distutils.core import setup, Extension
 
 
-def get_ext_modules():
-    from Cython.Build import cythonize
-    ext_modules = cythonize((
-        './pascal_triangle/cypascal_triangle.pyx',
-        './pascal_triangle/implementations/cython/iterators.pyx',
-        './pascal_triangle/implementations/cython/constant_lists.pyx',
-        './pascal_triangle/implementations/cython/non_recursive.pyx',
-        './pascal_triangle/implementations/cython/non_recursive_iterators.pyx',
-        './pascal_triangle/implementations/cython/non_recursive_c_like_improved.pyx',
-        './pascal_triangle/implementations/cython/non_recursive_c_like_more_improved.pyx',
-        './pascal_triangle/implementations/cython/non_recursive_less_c_like.pyx',
-        './pascal_triangle/implementations/cython/c_types.pyx',
-        './pascal_triangle/implementations/cython/c_types_ulong.pyx',
-    ))
+def get_ext_modules(with_cython_modules=True):
+
     cextensions = (
         Extension('pascal_triangle.implementations.cextension.cinitial',
                   ['./pascal_triangle/implementations/cextension/cinitial.c']),
@@ -26,6 +17,24 @@ def get_ext_modules():
         Extension('pascal_triangle.implementations.cextension.cfull_asm',
                   ['./pascal_triangle/implementations/cextension/cfull_asm.c']),
     )
+
+    if with_cython_modules:
+        from Cython.Build import cythonize
+        ext_modules  = cythonize((
+            './pascal_triangle/cypascal_triangle.pyx',
+            './pascal_triangle/implementations/cython/iterators.pyx',
+            './pascal_triangle/implementations/cython/constant_lists.pyx',
+            './pascal_triangle/implementations/cython/non_recursive.pyx',
+            './pascal_triangle/implementations/cython/non_recursive_iterators.pyx',
+            './pascal_triangle/implementations/cython/non_recursive_c_like_improved.pyx',
+            './pascal_triangle/implementations/cython/non_recursive_c_like_more_improved.pyx',
+            './pascal_triangle/implementations/cython/non_recursive_less_c_like.pyx',
+            './pascal_triangle/implementations/cython/c_types.pyx',
+            './pascal_triangle/implementations/cython/c_types_ulong.pyx',
+        ))
+    else:
+        ext_modules = []
+
     ext_modules.extend(cextensions)
 
     for ext_module in ext_modules:
@@ -57,16 +66,27 @@ class LazyList(list):
         return super(LazyList, self).__len__()
 
 
+CYTHON_REQUIRE = 'Cython==0.23.4'
+
+python_implementation = platform.python_implementation()
+
+if python_implementation == 'PyPy':
+    with_cython = False
+else:
+    with_cython = True
+
 setup(
     name='pascal_triangle',
     version='0.0.1',
     description='Print Pascal''s Triangle solutions',
     platforms='any',
     packages=setuptools.find_packages(),
-    setup_requires=('Cython==0.23.4',),
-    install_requires=('Cython==0.23.4', 'terminaltables==2.1.0', 'mock==1.3.0',),
+    # TODO(dmu) MEDIUM: Replace this dirty hack someday
+    setup_requires=(CYTHON_REQUIRE,) if with_cython else (),
+    install_requires=('terminaltables==2.1.0', 'mock==1.3.0',),
     extras_require={
-        'doc': ['Sphinx==1.3.5', 'sphinxcontrib-programoutput==0.8'],
+        'cython': (CYTHON_REQUIRE,),
+        'doc': ('Sphinx==1.3.5', 'sphinxcontrib-programoutput==0.8',),
     },
-    ext_modules=LazyList(get_ext_modules()),
+    ext_modules=LazyList(get_ext_modules(with_cython)),
 )

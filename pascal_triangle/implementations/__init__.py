@@ -1,6 +1,11 @@
+import platform
+
 from .python import *
-from .cython import *
-from .cextension import *
 
+ALL_IMPLEMENTATIONS = PYTHON_IMPLEMENTATIONS
 
-ALL_IMPLEMENTATIONS = PYTHON_IMPLEMENTATIONS + CYTHON_IMPLEMENTATIONS + CEXTENSION_IMPLEMENTATIONS
+if platform.python_implementation() == 'CPython':
+    from .cython import *
+    from .cextension import *
+
+    ALL_IMPLEMENTATIONS += CYTHON_IMPLEMENTATIONS + CEXTENSION_IMPLEMENTATIONS
