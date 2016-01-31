@@ -40,6 +40,10 @@ Installation
 Running tests
 -------------
 
+#. Activate virtualenv::
+
+    workon pascal_triangle
+
 #. Run unit tests::
 
     python -m unittest -v pascal_triangle.tests.test_pascal_triangle
@@ -50,13 +54,11 @@ Running tests
 
 #. Set constant CPU frequency::
 
-    sudo cpufreq-set -c 0 -g performance
-    sudo cpufreq-set -c 1 -g performance
-    ...
-    sudo cpufreq-set -c n -g performance
+    seq 0 $(( `nproc` - 1 )) | xargs --verbose -I{} sudo cpufreq-set -c {} -g performance
 
 #. Ensure that CPU frequency is set::
 
+    cpufreq-info | grep 'decide'
     cpufreq-info | grep 'current CPU frequency is'
 
 #. Run performance tests::
@@ -70,3 +72,17 @@ Running tests
     ./ccpascal_triangle_O3
     ./ccpascal_triangle_Ofast
 
+#. Set ondemand CPU frequency::
+
+    seq 0 $(( `nproc` - 1 )) | xargs --verbose -I{} sudo cpufreq-set -c {} -g ondemand
+
+Article
+-------
+
+For article generation run::
+
+    workon pascal_triangle
+    cd ./pascal_triangle/article
+    make html
+
+    firefox _build/html/index.html &

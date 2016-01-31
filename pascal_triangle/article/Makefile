@@ -52,6 +52,8 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 runtests:
+	seq 0 $$(( `nproc` - 1 )) | xargs --verbose -I{} sudo cpufreq-set -c {} -g performance
+
 	python -m pascal_triangle.tests.limitation_test > limitation_test.rst
 	python -m pascal_triangle.tests.performance_test --height 34 > performance_test_34.rst
 	python -m pascal_triangle.tests.performance_test --height 67 > performance_test_67.rst
