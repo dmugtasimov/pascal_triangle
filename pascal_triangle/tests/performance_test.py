@@ -47,7 +47,6 @@ def run_performance_test(height, cycles, sorted_by_performance=True, output_form
         try:
             duration = timeit.timeit(statement, setup=setup, number=cycles)
             if implementation_class.original:
-                table_line['implementation'] += '*'
                 base_duration = duration
 
         except Exception as e:
@@ -75,7 +74,10 @@ def run_performance_test(height, cycles, sorted_by_performance=True, output_form
 
         table_data_local = [HEADER] + [
             [
-                str(n + 1), v['implementation'], v['language'],
+                str(n + 1),
+                '`{}`_'.format(v['implementation'])
+                    if output_format == 'rst' else v['implementation'],
+                v['language'],
                 format_float_safe(v['duration']),
                 format_float_safe(v['factor']),
                 format_float_safe(v['percent']),
@@ -84,7 +86,7 @@ def run_performance_test(height, cycles, sorted_by_performance=True, output_form
 
         if output_format == 'console':
             table_class = terminaltables.AsciiTable
-        else:
+        elif output_format == 'rst':
             table_class = RSTTable
 
         table = table_class(table_data_local)

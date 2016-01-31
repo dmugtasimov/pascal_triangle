@@ -160,3 +160,22 @@ Output of :code:`$ ./ccpascal_triangle_O3`
 Output of :code:`$ ./ccpascal_triangle_Ofast`
 
 .. literalinclude:: ccpascal_triangle_Ofast.txt
+
+Source code
+~~~~~~~~~~~
+
+PyPascalTriangleOriginal
+````````````````````````
+
+.. literalinclude:: ../implementations/python/original.py
+
+PyPascalTriangleOriginalPlus
+````````````````````````````
+
+.. literalinclude:: ../implementations/python/original_plus.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/original_plus.py
+    :diff: ../implementations/python/original.py
