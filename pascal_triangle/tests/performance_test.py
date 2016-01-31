@@ -2,6 +2,8 @@ import timeit
 import argparse
 import json
 
+import terminaltables
+
 from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
 from pascal_triangle.utils import RSTTable, format_float_safe
 
@@ -22,25 +24,7 @@ HEADER = ['#', 'Implementation', 'Language', 'Duration, secs', 'Fraction of (*) 
 COLUMN_JUSTIFICATION = {0: 'left', 1: 'left', 2: 'left', 3: 'right', 4: 'right', 5: 'right'}
 
 
-def print_table_data(table_data, title):
-    table_data_local = [HEADER]
-    table_data_local += [
-        [
-            str(n + 1), v['implementation'], v['language'],
-            format_float_safe(v['duration']),
-            format_float_safe(v['factor']),
-            format_float_safe(v['percent']),
-        ] for n, v in enumerate(table_data)
-    ]
-
-    table = RSTTable(table_data_local)
-    table.justify_columns = COLUMN_JUSTIFICATION
-    print title
-    print ''
-    print table.table
-
-
-def run_performance_test(height, cycles, sorted_by_performance=True, format_json=False):
+def run_performance_test(height, cycles, sorted_by_performance=True, output_format='console'):
     statement = CODE_TEMPLATE.format(height=height)
 
     table_data = []
@@ -80,7 +64,7 @@ def run_performance_test(height, cycles, sorted_by_performance=True, format_json
 
         table_data.append(table_line)
 
-    if format_json:
+    if output_format == 'json':
         print json.dumps(table_data)
     else:
         title = TITLE_TEMPLATE.format(statement=statement, cycles=cycles)
@@ -89,7 +73,26 @@ def run_performance_test(height, cycles, sorted_by_performance=True, format_json
             title += ' (ordered by performance)'
             table_data = sorted(table_data, key=lambda x: x['duration'])
 
-        print_table_data(table_data, title)
+        table_data_local = [HEADER] + [
+            [
+                str(n + 1), v['implementation'], v['language'],
+                format_float_safe(v['duration']),
+                format_float_safe(v['factor']),
+                format_float_safe(v['percent']),
+            ] for n, v in enumerate(table_data)
+        ]
+
+        if output_format == 'console':
+            table_class = terminaltables.AsciiTable
+        else:
+            table_class = RSTTable
+
+        table = table_class(table_data_local)
+        table.justify_columns = COLUMN_JUSTIFICATION
+
+        print title
+        print ''
+        print table.table
 
 
 if __name__ == '__main__':
@@ -101,9 +104,9 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--cycles', default=1000, type=int,
                         help='number of cycles to run for each implementation')
     parser.add_argument('--chronological-order', action='store_true', default=False)
-    parser.add_argument('--json', action='store_true', default=False)
+    parser.add_argument('--output-format', choices=('rst', 'json', 'console'), default='console')
 
     args = parser.parse_args()
     run_performance_test(args.height, args.cycles,
                          sorted_by_performance=not args.chronological_order,
-                         format_json=args.json)
+                         output_format=args.output_format)

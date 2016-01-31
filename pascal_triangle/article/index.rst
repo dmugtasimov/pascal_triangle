@@ -35,9 +35,8 @@ Algorithms:
 
 Programming languages:
 
-* Python
+* Python (CPython and PyPy implementations)
 * Cython
-* PyPy
 * C
 * Assembler
 
@@ -50,7 +49,7 @@ Optimization techniques used:
 Conclusions
 -----------
 
-*
+* Faster implementations may have limitations that make them impractical. For example `CPascalTriangleFullAsm`_ has the best time performance, but limited to 34 height. Therefore practially it is easier to cache or precalculate Pascal's Triangle of this height.
 
 Full story
 ----------
@@ -85,7 +84,7 @@ For the purpose of this article I made small changes to my original implementati
 .. literalinclude:: ../implementations/python/original.py
 
 Limitations
-```````````
+~~~~~~~~~~~
 
 When I started implementation of the Pascal's Triangle building algorithm it turned out that
 different implementations have their own limitations. Therefore I should describe the limitations
@@ -138,3 +137,26 @@ CPython vs Cython vs PyPy
 `````````````````````````
 
 .. include:: cpython_vs_cython_vs_pypy.rst
+
+C implementations
+`````````````````
+
+Compilation script:
+
+.. literalinclude:: ../../build.sh
+
+Output of :code:`$ ./ccpascal_triangle_normal`
+
+.. literalinclude:: ccpascal_triangle_normal.txt
+
+Output of :code:`$ ./ccpascal_triangle_O2`
+
+.. literalinclude:: ccpascal_triangle_O2.txt
+
+Output of :code:`$ ./ccpascal_triangle_O3`
+
+.. literalinclude:: ccpascal_triangle_O3.txt
+
+Output of :code:`$ ./ccpascal_triangle_Ofast`
+
+.. literalinclude:: ccpascal_triangle_Ofast.txt
