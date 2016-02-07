@@ -386,3 +386,58 @@ Diff
 
 .. literalinclude:: ../implementations/cython/c_types_ulong.pyx
     :diff: ../implementations/cython/c_types.pyx
+
+CPascalTriangleInitial
+``````````````````````
+
+.. literalinclude:: ../implementations/cextension/initial.py
+.. literalinclude:: ../implementations/cextension/cinitial.c
+    :language: c
+
+CPascalTriangleULong
+````````````````````
+
+.. literalinclude:: ../implementations/cextension/ulong.py
+.. literalinclude:: ../implementations/cextension/culong.c
+    :language: c
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cextension/ulong.py
+    :diff: ../implementations/cextension/initial.py
+
+.. literalinclude:: ../implementations/cextension/culong.c
+    :diff: ../implementations/cextension/cinitial.c
+
+CPascalTrianglePartialAsm
+`````````````````````````
+
+.. literalinclude:: ../implementations/cextension/partial_asm.py
+.. literalinclude:: ../implementations/cextension/cpartial_asm.c
+    :language: c
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cextension/partial_asm.py
+    :diff: ../implementations/cextension/initial.py
+
+.. literalinclude:: ../implementations/cextension/cpartial_asm.c
+    :diff: ../implementations/cextension/cinitial.c
+
+CPascalTriangleFullAsm
+``````````````````````
+
+.. literalinclude:: ../implementations/cextension/full_asm.py
+.. literalinclude:: ../implementations/cextension/cfull_asm.c
+    :language: c
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cextension/full_asm.py
+    :diff: ../implementations/cextension/partial_asm.py
+
+.. literalinclude:: ../implementations/cextension/cfull_asm.c
+    :diff: ../implementations/cextension/cpartial_asm.c
