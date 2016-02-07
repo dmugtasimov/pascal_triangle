@@ -88,6 +88,8 @@ def run_performance_test(height, cycles, sorted_by_performance=True, output_form
             table_class = terminaltables.AsciiTable
         elif output_format == 'rst':
             table_class = RSTTable
+        else:
+            raise ValueError('Unknown output format: {}'.format(output_format))
 
         table = table_class(table_data_local)
         table.justify_columns = COLUMN_JUSTIFICATION

@@ -17,4 +17,4 @@ class CyPascalTriangleNonRecursive(CyPascalTriangleBase):
                 line[i] += line[i + 1]
             self._print(line)
 
-        return line
+        return line  # return last line for testing purposes

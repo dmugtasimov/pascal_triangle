@@ -22,4 +22,4 @@ class PyPascalTriangleOriginalPlus(PyPascalTriangleBase):
         prev_line = [0] + self.build(height - 1) + [0]
         line = [prev_line[i] + prev_line[i + 1] for i in xrange(len(prev_line) - 1)]
         self._print(line)
-        return line
+        return line  # return last line for testing purposes

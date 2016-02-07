@@ -164,6 +164,16 @@ Output of :code:`$ ./ccpascal_triangle_Ofast`
 Source code
 ~~~~~~~~~~~
 
+PascalTriangleBase
+``````````````````
+
+.. literalinclude:: ../implementations/base.py
+
+PyPascalTriangleBase
+````````````````````
+
+.. literalinclude:: ../implementations/python/base.py
+
 PyPascalTriangleOriginal
 ````````````````````````
 
@@ -179,3 +189,200 @@ Diff
 
 .. literalinclude:: ../implementations/python/original_plus.py
     :diff: ../implementations/python/original.py
+
+PyPascalTriangleConstantLists
+`````````````````````````````
+
+.. literalinclude:: ../implementations/python/constant_lists.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/constant_lists.py
+    :diff: ../implementations/python/original_plus.py
+
+PyPascalTriangleConstantTuples
+``````````````````````````````
+
+.. literalinclude:: ../implementations/python/constant_tuples.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/constant_tuples.py
+    :diff: ../implementations/python/constant_lists.py
+
+PyPascalTriangleIterators
+`````````````````````````
+
+.. literalinclude:: ../implementations/python/iterators.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/iterators.py
+    :diff: ../implementations/python/constant_lists.py
+
+PyPascalTriangleNonRecursive
+````````````````````````````
+
+.. literalinclude:: ../implementations/python/non_recursive.py
+
+PyPascalTriangleNonRecursiveIterators
+`````````````````````````````````````
+
+.. literalinclude:: ../implementations/python/non_recursive_iterators.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/non_recursive_iterators.py
+    :diff: ../implementations/python/non_recursive.py
+
+PyPascalTriangleNonRecursiveCLike
+`````````````````````````````````
+
+.. literalinclude:: ../implementations/python/non_recursive_c_like.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/non_recursive_c_like.py
+    :diff: ../implementations/python/non_recursive.py
+
+PyPascalTriangleNonRecursiveCLikeImproved
+`````````````````````````````````````````
+
+.. literalinclude:: ../implementations/python/non_recursive_c_like_improved.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/non_recursive_c_like_improved.py
+    :diff: ../implementations/python/non_recursive_c_like.py
+
+PyPascalTriangleNonRecursiveLessCLike
+`````````````````````````````````````
+
+.. literalinclude:: ../implementations/python/non_recursive_less_c_like.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/non_recursive_less_c_like.py
+    :diff: ../implementations/python/non_recursive_c_like.py
+
+PyPascalTriangleNonRecursiveArray
+`````````````````````````````````
+
+.. literalinclude:: ../implementations/python/non_recursive_array.py
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/python/non_recursive_array.py
+    :diff: ../implementations/python/non_recursive_less_c_like.py
+
+CyPascalTriangleBase
+````````````````````
+
+.. literalinclude:: ../implementations/cython/base.py
+
+CyPascalTriangleConstantLists
+`````````````````````````````
+
+.. literalinclude:: ../implementations/cython/constant_lists.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/constant_lists.pyx
+    :diff: ../implementations/python/constant_lists.py
+
+CyPascalTriangleIterators
+`````````````````````````
+
+.. literalinclude:: ../implementations/cython/iterators.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/iterators.pyx
+    :diff: ../implementations/python/iterators.py
+
+CyPascalTriangleNonRecursive
+````````````````````````````
+
+.. literalinclude:: ../implementations/cython/non_recursive.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/non_recursive.pyx
+    :diff: ../implementations/python/non_recursive.py
+
+CyPascalTriangleNonRecursiveIterators
+`````````````````````````````````````
+
+.. literalinclude:: ../implementations/cython/non_recursive_iterators.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/non_recursive_iterators.pyx
+    :diff: ../implementations/python/non_recursive_iterators.py
+
+CyPascalTriangleNonRecursiveCLikeImproved
+`````````````````````````````````````````
+
+.. literalinclude:: ../implementations/cython/non_recursive_c_like_improved.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/non_recursive_c_like_improved.pyx
+    :diff: ../implementations/python/non_recursive_c_like_improved.py
+
+CyPascalTriangleNonRecursiveCLikeMoreImproved
+`````````````````````````````````````````````
+
+.. literalinclude:: ../implementations/cython/non_recursive_c_like_more_improved.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/non_recursive_c_like_more_improved.pyx
+    :diff: ../implementations/cython/non_recursive_c_like_improved.pyx
+
+CyPascalTriangleNonRecursiveLessCLike
+`````````````````````````````````````
+
+.. literalinclude:: ../implementations/cython/non_recursive_less_c_like.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/non_recursive_less_c_like.pyx
+    :diff: ../implementations/python/non_recursive_less_c_like.py
+
+CyPascalTriangleNonRecursiveCTypes
+``````````````````````````````````
+
+.. literalinclude:: ../implementations/cython/c_types.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/c_types.pyx
+    :diff: ../implementations/python/non_recursive_array.py
+
+CyPascalTriangleNonRecursiveCTypesULong
+```````````````````````````````````````
+
+.. literalinclude:: ../implementations/cython/c_types_ulong.pyx
+
+Diff
+++++
+
+.. literalinclude:: ../implementations/cython/c_types_ulong.pyx
+    :diff: ../implementations/cython/c_types.pyx

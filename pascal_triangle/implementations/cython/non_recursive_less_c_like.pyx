@@ -19,4 +19,4 @@ class CyPascalTriangleNonRecursiveLessCLike(CyPascalTriangleBase):
             self._print(print_line)
             start -= 1
 
-        return line
+        return line  # return last line for testing purposes

@@ -21,4 +21,4 @@ class CyPascalTriangleConstantLists(CyPascalTriangleBase):
         prev_line = self.ZERO_LIST + self.build(height - 1) + self.ZERO_LIST
         line = [prev_line[i] + prev_line[i + 1] for i in xrange(len(prev_line) - 1)]
         self._print(line)
-        return line
+        return line  # return last line for testing purposes

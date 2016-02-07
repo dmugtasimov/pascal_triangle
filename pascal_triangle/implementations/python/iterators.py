@@ -25,4 +25,4 @@ class PyPascalTriangleIterators(PyPascalTriangleBase):
         ahead_iterator = itertools.chain(prev_line, self.ZERO_LIST)
         line = [x + y for x, y in itertools.izip(iterator, ahead_iterator)]
         self._print(line)
-        return line
+        return line  # return last line for testing purposes

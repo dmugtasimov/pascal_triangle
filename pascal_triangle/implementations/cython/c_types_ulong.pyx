@@ -1,7 +1,8 @@
 import sys
 
-from cpython cimport array as c_array
+import itertools
 from array import array
+from cpython cimport array as c_array
 
 from .base import CyPascalTriangleBase
 
@@ -17,7 +18,7 @@ class CyPascalTriangleNonRecursiveCTypesULong(CyPascalTriangleBase):
     max_height = 67
 
     def build(self, height, verbose=False):
-        cdef c_array.array line = array('L', self.ONE_LIST * (height + 1))
+        cdef c_array.array line = array('L', itertools.repeat(1, height + 1))
         cdef int start = height
         cdef int size = 0
         cdef int index
@@ -40,4 +41,4 @@ class CyPascalTriangleNonRecursiveCTypesULong(CyPascalTriangleBase):
 
             start -= 1
             size += 1
-        return line
+        return line  # return last line for testing purposes

@@ -3,7 +3,7 @@ from .base import PyPascalTriangleBase
 
 class PyPascalTriangleNonRecursive(PyPascalTriangleBase):
     """
-    A non recursive implementation of Pascal Triangle printing algorithm.
+    A non-recursive implementation of Pascal Triangle printing algorithm.
     """
 
     def build(self, height):
@@ -14,4 +14,4 @@ class PyPascalTriangleNonRecursive(PyPascalTriangleBase):
                 line[i] += line[i + 1]
             self._print(line)
 
-        return line
+        return line  # return last line for testing purposes

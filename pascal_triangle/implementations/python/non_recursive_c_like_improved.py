@@ -23,4 +23,4 @@ class PyPascalTriangleNonRecursiveCLikeImproved(PyPascalTriangleBase):
             start -= 1
             size += 1
 
-        return line
+        return line  # return last line for testing purposes

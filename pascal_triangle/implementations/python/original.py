@@ -17,4 +17,4 @@ class PyPascalTriangleOriginal(PyPascalTriangleBase):
         a = [0] + self.build(height - 1) + [0]
         b = [a[i] + a[i + 1] for i in xrange(len(a) - 1)]
         self._print(b)
-        return b
+        return b  # return last line for testing purposes

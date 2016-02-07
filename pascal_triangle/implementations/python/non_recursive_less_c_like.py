@@ -6,7 +6,7 @@ class PyPascalTriangleNonRecursiveLessCLike(PyPascalTriangleBase):
     Based on :py:class::`PascalTriangleNonRecursiveCLike`.
 
     Difference:
-        - xrange objects are used
+        - xrange objects are used instead of while-loops
     """
 
     def build(self, height):
@@ -19,4 +19,4 @@ class PyPascalTriangleNonRecursiveLessCLike(PyPascalTriangleBase):
             self._print(print_line)
             start -= 1
 
-        return line
+        return line  # return last line for testing purposes
