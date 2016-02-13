@@ -441,3 +441,8 @@ Diff
 
 .. literalinclude:: ../implementations/cextension/cfull_asm.c
     :diff: ../implementations/cextension/cpartial_asm.c
+
+TODO
+----
+
+- Support Python 3.x (port Python, Cython and C extensions code)
