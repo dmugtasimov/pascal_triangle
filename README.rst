@@ -46,6 +46,20 @@ Installation
     cd pascal_triangle
     pip install -e .
 
+#. Create virtualenv for Python 3::
+
+    deactivate
+    mkvirtualenv pascal_triangle_py3 -p /usr/bin/python3
+    pip install --upgrade pip
+
+    # to activate later:
+    workon pascal_triangle_py3
+
+#. Install into PyPy virtualenv::
+
+    cd pascal_triangle
+    pip install -e .
+
 #. Build pure C solution::
 
     ./build.sh

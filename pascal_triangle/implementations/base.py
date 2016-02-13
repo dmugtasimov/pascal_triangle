@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 class PascalTriangleBase(object):
 
     language = NotImplemented
@@ -17,7 +19,7 @@ class PascalTriangleBase(object):
         self.return_list = return_list
 
     def _test_print(self, arg):
-        print arg
+        print(arg)
 
     def _print(self, arg):
         """
