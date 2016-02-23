@@ -58,7 +58,7 @@ def run_performance_test(height, cycles, sorted_by_performance=True, output_form
             table_line['duration'] = duration
 
         table_line['factor'] = (duration / base_duration) if base_duration is not None else '-'
-        table_line['percent'] = ((100 * base_duration / duration - 100)
+        table_line['percent'] = ((base_duration / duration - 1) * 100
                                  if base_duration is not None else '-')
 
         table_data.append(table_line)

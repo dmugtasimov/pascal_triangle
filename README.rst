@@ -1,3 +1,5 @@
+Blog post about this project: `Pascal's Triangle <http://dmugtasimov-tech.blogspot.ru/2016/02/pascals-triangle.html>`_
+
 Installation
 ------------
 

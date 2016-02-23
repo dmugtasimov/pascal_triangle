@@ -24,32 +24,45 @@ Summary
 -------
 
 This article is about `Pascal's Triangle <http://en.wikipedia.org/wiki/Pascal%27s_triangle>`_
-building algorithm implementations, their performance and limitation analysis. The article shows
+building algorithm implementations, their performance and limitations analysis. The article shows
 some techniques for performance optimization that can be used for solving real life software
 optimization problems.
 
-Algorithms:
-
-* Recursive
-* Non-recursive
-
 Programming languages:
 
-* Python (CPython and PyPy implementations)
-* Cython
-* C
-* Assembler
+- Python (CPython and PyPy implementations)
+- Cython
+- C
+- Assembler
 
 Optimization techniques used:
 
-* Microoptimizations
-* Replace recursive algorithm with non-recursive
-* Replace Python with other programming languages
+- Microoptimizations
+- Replace recursive algorithm with non-recursive
+- Replace Python with other programming languages
 
 Conclusions
 -----------
 
-* Faster implementations may have limitations that make them impractical. For example `CPascalTriangleFullAsm`_ has the best time performance, but limited to 34 height. Therefore practially it is easier to cache or precalculate Pascal's Triangle of this height.
+- It is possible to improve performance for more than 200 times if you are ready to switch from CPython to C or Assembler
+- You probably should not try to implement your algorithm in Assembler for better performance unless you are as proficient in Assembler as a C-compiler developer, otherwise just use compiler optimization options
+- It was possible to improve CPython implementation by 40% by switching to non-recursive implementation and other language specific optimizations
+- It is possible to improve performance by 20-50% by switching to Cython with no changes to source code
+- It is possible to improve performance for 2-7 times by switching to PyPy with no changes to source code
+- As expected from fastest to slowest: Assembler and C, PyPy, Cython, CPython
+- You should always check if your performance optimization leads to improvement, because sometime unexpectedly they lead to performance degradation
+- Faster implementations may have limitations that make them impractical. For example `CPascalTriangleFullAsm`_ has the best time performance, but limited to 34 height. Therefore it is more practical to cache or precalculate Pascal's Triangle of this height and return result from memory which would would run even faster than the Assembler implementation.
+
+Implementation Notes
+--------------------
+
+- Complete source code can be found in `pascal_triangle <https://github.com/dmugtasimov/pascal_triangle>`_ github repository
+- This article is automatically generated with `Sphinx <http://www.sphinx-doc.org/>`_
+- Metaclasses are used for unit-testing variety of solutions of the same problem
+- Specific property of Pascal's Triangle is used to test the solutions: sum of line's integers is equal to 2 to the power of line number
+- cythonize() tries to compile \*.pyx files before Cython is installed according to setup_requires argument of setup(), so there is a need to have a LazyList() as work around
+- Cython is incompatible with PyPy, so there is a need to check for python implementation being used
+- It is important to set constant CPU frequency to get stable benchmark results
 
 Full story
 ----------
@@ -79,7 +92,7 @@ that prints Pascal's Triangle:
 .. literalinclude:: ../implementations/original.py
 
 For the purpose of this article I made small changes to my original implementation
-(made lines zero-based and converted the function into a class method):
+(zero-based lines and function is converted to a class method):
 
 .. literalinclude:: ../implementations/python/original.py
 
@@ -87,7 +100,7 @@ Limitations
 ~~~~~~~~~~~
 
 When I started implementation of the Pascal's Triangle building algorithm it turned out that
-different implementations have their own limitations. Therefore I should describe the limitations
+different implementations have their own limitations. Therefore limitations should be described
 first.
 
 Here is the result of limitation test::
@@ -96,29 +109,43 @@ Here is the result of limitation test::
 
 .. include:: limitation_test.rst
 
-As seen from the table there are several thresholds of triangle height limitations:
+As seen from the table there are several thresholds of triangle height limitation:
 
-* 34 is a height limit for all algorithms that use unsigned 32-bit integers for calculation.
-* 67 is a height limit for all algorithms that use unsigned 64-bit integers for calculation.
-* Just below 1000 is a height limit for all recursive algorithms in Python since the default recursion limit in python is 1000 frames.
-* The other implementations are virtually limited by the time required for calculation once it exceeds 1 second.
+* 34 is a height limit for all algorithms that use unsigned 32-bit integers to store resulting lines.
+* 67 is a height limit for all algorithms that use unsigned 64-bit integers to store resulting lines.
+* A just below 1000 height limit is valid for all recursive algorithms in Python since the default recursion limit in python is 1000 frames.
+* The other implementations are virtually limited by the time required for calculation (1 second).
 
 From practical point of view limit of 34 and 67 height makes corresponding algorithms
 useless since lines Pascal's Triangle of 67 height can be precomputed and stored in
-memory with any other even slow algorithms. It would take only (height + 2) * (height + 1) / 2 =
-(67 + 2) * (67 + 1) / 2 * 8 = 18768 bytes.
+memory with any other algorithm. It would take just (height + 2) * (height + 1) / 2 * 8 =
+(67 + 2) * (67 + 1) / 2 * 8 = 18 768 bytes for 64-bit implementation.
 
-So all optimizations that were made for original implementation have only scientific interest.
+So all optimizations that are limited by 64-height make only scientific interest.
 
 Another conclusion from limitation test is that we can only compare implementations for particular
-heights. Performance of all implementations can be benchmarked for 34 height and there should be
-a benchmark for 67 height group, 1000 height group and over 1000 height group.
+heights. There will be 4 benchmarks of different heights: 34, 67, 900, 3000.
 
 Performance
 ~~~~~~~~~~~
 
 CPython
 ```````
+
+- The best implementation is Assembler x86 implementation
+- Non-recursive implementations do better than recursive implementations
+- Cython implementations do better than Python implementations
+- C implementations do better than Cython implementations
+- Assembler x86 implementation does better than C implementations
+- Best implementation is about 100 times faster than the original implementation
+- Best C implementation is about 50 times faster than the original implementation
+- Best Cython implementation is about 90% faster than the original implementation
+- Best Python implementation is about 40% faster than the original implementation
+- `PyPascalTriangleNonRecursive`_, `PyPascalTriangleNonRecursiveLessCLike`_ and `PyPascalTriangleNonRecursiveCLikeImproved`_ are three best Python implementations
+- Cython implementation that used C type is not the best Cython implementation
+- 32-bit vs 64-bit integers do not make notable difference
+- Sometimes more optimized Python implementation can do better than less optimized Cython implementation
+- Some "optimizations" lead to up to 30% performance loss
 
 .. include:: cpython_performance_test_34.rst
 .. include:: cpython_performance_test_67.rst
@@ -128,6 +155,11 @@ CPython
 PyPy
 ````
 
+- C-like Python implementations interpreted with PyPy do better than interpreted with CPython
+- `PyPascalTriangleNonRecursiveCLike`_, `PyPascalTriangleNonRecursiveLessCLike`_ and `PyPascalTriangleNonRecursive`_  are three best Python implementations interpreted with PyPy
+- Best Python implementation is about 300% faster than the original implementation with PyPy
+- It is easier to gain higher performance increase for Python with PyPy than with CPython
+
 .. include:: pypy_performance_test_34.rst
 .. include:: pypy_performance_test_67.rst
 .. include:: pypy_performance_test_900.rst
@@ -136,10 +168,24 @@ PyPy
 CPython vs Cython vs PyPy
 `````````````````````````
 
+- PyPy is faster than Cython
+- Cython is faster than CPython
+- Cython increases performance for tens of percents
+- PyPy increase performance in several times
+- CPython, Cython and PyPy do their best at different implementations
+- `PyPascalTriangleNonRecursive`_ is the best for CPython
+- `PyPascalTriangleNonRecursiveLessCLike`_ is the best for Cython
+- `PyPascalTriangleNonRecursiveCLike`_ is the best for PyPy
+
 .. include:: cpython_vs_cython_vs_pypy.rst
 
-C implementations
-`````````````````
+Pure C implementations
+``````````````````````
+
+- Most optimal version is more than 200 times faster than original CPython version
+- Compiler-optimized (-O3 and -Ofast options) C code runs faster than Assembler code
+- Python types conversion required for C extensions come with up to 10% overhead on function call
+- gcc optimization options may improve run time up to 3 times
 
 Compilation script:
 
@@ -161,8 +207,30 @@ Output of :code:`$ ./ccpascal_triangle_Ofast`
 
 .. literalinclude:: ccpascal_triangle_Ofast.txt
 
+Environment
+~~~~~~~~~~~
+
+.. program-output:: lscpu
+
+.. program-output:: cpufreq-info | grep 'current CPU'
+    :shell:
+
+.. program-output:: uname -srvmpio
+
+.. program-output:: cat /etc/issue
+
+.. program-output:: python -V
+
+.. program-output:: cython -V
+
+.. literalinclude:: pypy_version.txt
+
+.. program-output:: gcc --version
+
 Source code
 ~~~~~~~~~~~
+
+Please, see class's docstring and diff to review the difference with base implementation.
 
 PascalTriangleBase
 ``````````````````
@@ -445,4 +513,5 @@ Diff
 TODO
 ----
 
+- Provide Assembler x86 implementation for 64-bit integer values
 - Support Python 3.x (port Python, Cython and C extensions code)

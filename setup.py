@@ -1,4 +1,3 @@
-import os
 import setuptools
 import platform
 
@@ -20,8 +19,7 @@ def get_ext_modules(with_cython_modules=True):
 
     if with_cython_modules:
         from Cython.Build import cythonize
-        ext_modules  = cythonize((
-            './pascal_triangle/cypascal_triangle.pyx',
+        ext_modules = cythonize((
             './pascal_triangle/implementations/cython/iterators.pyx',
             './pascal_triangle/implementations/cython/constant_lists.pyx',
             './pascal_triangle/implementations/cython/non_recursive.pyx',

@@ -1,6 +1,5 @@
 import time
-
-import terminaltables
+import argparse
 
 from pascal_triangle.implementations import ALL_IMPLEMENTATIONS
 from pascal_triangle.utils import RSTTable
@@ -16,7 +15,7 @@ def get_code(class_name, height):
     return CODE_TEMPLATE.format(class_name=class_name, height=height)
 
 
-def run_limitation_test():
+def run_limitation_test(output_format):
     powers_of_2 = tuple(2 ** p for p in xrange(MAX_HEIGHT + 1))
 
     table_data = [
@@ -63,7 +62,9 @@ def run_limitation_test():
             upper *= 2
         else:
             table_data.append([
-                str(len(table_data)), class_name, test_class.language,
+                str(len(table_data)),
+                '`{}`_'.format(class_name)
+                    if output_format == 'rst' else class_name, test_class.language,
                 str(height), '{0:.06f}'.format(duration) if duration is not None else '-',
                 last_error.get('reason', ''), last_error.get('info', '')
             ])
@@ -72,4 +73,10 @@ def run_limitation_test():
 
 
 if __name__ == '__main__':
-    run_limitation_test()
+    parser = argparse.ArgumentParser(
+        description='Run limitation test of building Pascal\'s Triangle',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--output-format', choices=('rst', 'console'), default='console')
+    args = parser.parse_args()
+
+    run_limitation_test(output_format=args.output_format)
